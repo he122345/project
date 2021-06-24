@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Kanade.Dao.drugDao">
+    <select id="findAllDrug" resultType="Kanade.domain.Drug">
+        select * from drug
+    </select>
+    <select id="findByIdDrug" resultType="Kanade.domain.Drug" parameterType="int">
+        select * from drug where drug_id = #{drug_id}
+    </select>
+    <insert id="insertDrug" parameterType="Kanade.domain.Drug">
+        insert into drug(drug_id,dr_name,dr_price,dr_inventory) values(#{drug_id},#{dr_name},#{dr_price},#{dr_inventory})
+    </insert>
+    <update id="updateDrug" parameterType="Kanade.domain.Drug">
+        update drug set dr_name=#{dr_name},dr_price=#{dr_price},dr_inventory=#{dr_inventory} where drug_id = #{drug_id}
+    </update>
+    <delete id="deleteDrug" parameterType="int">
+        delete from drug where drug_id = #{drug_id}
+    </delete>
+
+</mapper>

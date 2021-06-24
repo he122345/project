@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../layui/layui.js"></script>
+</head>
+<body>
+    <form action="http://www.localhost:8088/doctor/updateDoctor" method="get" class="layui-form">
+        <input type = "hidden"  type="text" name="doctor_id" id="toid" />
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="d_name" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input" style="width:200px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-inline">
+                <input type="text" name="d_sex" required lay-verify="required" placeholder="请输入性别" autocomplete="off" class="layui-input" style="width:200px">
+            </div></div>
+        <div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">年龄</label>
+                <div class="layui-input-block">
+                    <input type="text" name="d_age" required lay-verify="required" placeholder="请输入年龄" autocomplete="off" class="layui-input" style="width:200px">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">科室</label>
+                <div class="layui-input-block">
+                    <input type="text" name="d_keshi" required lay-verify="required" placeholder="请输入科室" autocomplete="off" class="layui-input" style="width:200px">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="d_number" required lay-verify="required" placeholder="请输入电话" autocomplete="off" class="layui-input" style="width:200px">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+<script>
+    layui.use(['form','jquery'], function(){
+        var form = layui.form;
+        window.jquery = window.$ = layui.jquery;})
+        var doctor_id = location.search;
+        var num = doctor_id.replace(/[^0-9]/ig,"");
+        document.getElementById("toid").value=num;
+
+</script>
+</html>

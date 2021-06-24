@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../layui/layui.js"></script>
+</head>
+<body>
+<form action="http://www.localhost:8088/guahao/addkaiyao" method="post" class="layui-form">
+    <input type = "hidden"  type="text" name="s_id" id="toid" />
+    <div class="layui-form-item">
+        <label class="layui-form-label">开药编号</label>
+        <div class="layui-input-block">
+            <input type="text" name="kaiyao_id" required  lay-verify="required" placeholder="请输入编号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">医生工号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="d_id" required lay-verify="required" placeholder="请输入工号" autocomplete="off" class="layui-input">
+        </div></div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">药品编号</label>
+            <div class="layui-input-block">
+                <input type="text" name="drug_id" required lay-verify="required" placeholder="请输入编号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">药品名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="drug_name" required lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">总价</label>
+        <div class="layui-input-block">
+            <input type="text" name="price" required lay-verify="required" placeholder="请输入总价" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+<script>
+    layui.use(['form','jquery'], function(){
+        var form = layui.form;
+        window.jquery = window.$ = layui.jquery;})
+    var s_id = location.search;
+    var num = s_id.replace(/[^0-9]/ig,"");
+    document.getElementById("toid").value=num;
+</script>
+</html>

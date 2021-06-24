@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Kanade.Dao.guahaoDao">
+    <select id="findAllguahao" resultType="Kanade.domain.guaHao">
+        select * from guahao
+    </select>
+
+    <insert id="insert_guahao" parameterType="Kanade.domain.guaHao">
+        insert into guahao(guahao_id,s_name,guahaotime,d_id) values(#{guahao_id},#{s_name},#{guahaotime},#{d_id})
+    </insert>
+
+    <select id="findByd_id" resultType="Kanade.domain.guaHao" parameterType="int">
+        select * from guahao where d_id = #{d_id}
+    </select>
+
+    <!--开药表-->
+    <insert id="insert_kaiyao" parameterType="Kanade.domain.kaiYao">
+        insert into kaiyao(kaiyao_id,s_id,d_id,drug_id,drug_name,price) values(#{kaiyao_id},#{s_id},#{d_id},#{drug_id},#{drug_name},#{price})
+    </insert>
+
+    <select id="findBys_id" resultType="Kanade.domain.kaiYao" parameterType="int">
+        select * from kaiyao where s_id = #{s_id}
+    </select>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Kanade.Dao.doctorDao">
+    <select id="findAllDoctor" resultType="Kanade.domain.Doctor">
+        select * from doctor
+    </select>
+    <select id="findByIdDoctor" resultType="Kanade.domain.Doctor" parameterType="int">
+        select * from doctor where doctor_id = #{doctor_id}
+    </select>
+    <insert id="insertDoctor" parameterType="Kanade.domain.Doctor">
+        insert into doctor(doctor_id,d_name,d_sex,d_age,d_keshi,d_number) values(#{doctor_id},#{d_name},#{d_sex},#{d_age},#{d_keshi},#{d_number})
+    </insert>
+    <update id="updateDoctor" parameterType="Kanade.domain.Doctor">
+        update doctor set d_name=#{d_name},d_sex=#{d_sex},d_age=#{d_age},d_keshi=#{d_keshi},d_number=#{d_number} where doctor_id = #{doctor_id}
+    </update>
+    <delete id="deleteDoctor" parameterType="int">
+        delete from doctor where doctor_id = #{doctor_id}
+    </delete>
+
+</mapper>

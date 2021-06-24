@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>卡片管理</title>
+</head>
+<body>
+    <table class="layui-hide" id="test"></table>
+</body>
+<script>
+    layui.use('table', function(){
+
+        var table = layui.table;
+
+        table.render({
+            elem: '#test'
+            ,url:'http://localhost:8088/user/getAllUsers'
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "OK", //解析提示文本
+                    "count": 100, //解析数据长度
+                    "data": res //解析数据列表
+                };
+            }
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {field:'id', width:80, title: 'ID', sort: true}
+                ,{field:'username', width:80, title: '用户名'}
+                ,{field:'password', width:80, title: '密码'}
+                ,{field:'sex', width:80, title: '性别', sort: true}
+            ]]
+        });
+    });
+</script>
+</html>

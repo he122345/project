@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Kanade.Dao.studentDao">
+    <select id="findAllStudent" resultType="Kanade.domain.Student">
+        select * from student
+    </select>
+    <select id="findByIdStudent" resultType="Kanade.domain.Student" parameterType="int">
+        select * from student where student_id = #{student_id}
+    </select>
+    <insert id="insertStudent" parameterType="Kanade.domain.Student">
+        insert into student(student_id,s_name,s_sex,s_age,s_number) values(#{student_id},#{s_name},#{s_sex},#{s_age},#{s_number})
+    </insert>
+    <update id="updateStudent" parameterType="Kanade.domain.Student">
+        update student set s_name=#{s_name},s_sex=#{s_sex},s_age=#{s_age},s_number=#{s_number} where student_id = #{student_id}
+    </update>
+    <delete id="deleteStudent" parameterType="int">
+        delete from student where student_id = #{student_id}
+    </delete>
+
+</mapper>

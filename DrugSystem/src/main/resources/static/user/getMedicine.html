@@ -1,0 +1,71 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../layui/layui.js"></script>
+</head>
+<body class="layui-layout-body">
+<div>
+    <div class="layui-inline">
+        <input type="text" name="title" required lay-verify="required" placeholder="请输入学号" autocomplete="off" class="layui-input" style="width:125px;" >
+    </div>
+    <div class="layui-inline">
+        <button type="button" class="layui-btn"  id="findBys_id">查找病人</button>
+    </div>
+
+</div>
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script>
+    //封装了tableInit的对象/函数，根据不同的url来实现表格的渲染
+    var tableInit = function(url){//url代表的是渲染表格的请求路径
+        layui.use('table', function(){
+            var $ = layui.$;
+
+            var table = layui.table;
+
+            table.render({
+                elem: '#test'
+                ,url: url
+                ,parseData: function(res){ //res 即为原始返回的数据
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": "OK", //解析提示文本
+                        "count": 100, //解析数据长度
+                        "data": res //解析数据列表
+                    };
+                }
+                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,cols: [[
+                    {field:'kaiyao_id', width:180, title: '开药编号'}
+                    ,{field:'s_id', width:180, title: '学生学号'}
+                    ,{field:'d_id', width:180, title: '医生工号'}
+                    ,{field:'drug_id', width:180, title: '药品编号'}
+                    ,{field:'drug_name', width:180, title: '药品名称'}
+                    ,{field:'price', width:180, title: '总价'}
+                    ,{fixed: 'right', width:250, align:'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+                ]]
+            });
+        });
+    }
+
+
+    //根据id查询，重新渲染表格，事件和tableInit()绑定
+    layui.use('layer', function(){
+        var $ = layui.$ //由于layer弹层依赖jQuery，所以可以直接得到
+            ,layer = layui.layer;
+
+        //jQuery
+        $("#findBys_id").on('click',function(){
+            var s_id = $(this).parent().parent().find(".layui-input").val();
+            tableInit("http://localhost:8088/guahao/getUserBys_id/"+s_id);
+        })
+    });
+
+
+</script>
+</body>
+</html>

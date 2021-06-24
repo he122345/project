@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>医院门诊信息管理系统</title>
+  <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+  <script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+</head>
+ <style type="text/css">
+ 	#tip{
+		text-align: center;
+		margin-top: 200px;
+		font-size: 30px;
+	}
+ </style>
+<body class="layui-layout-body">
+	
+	
+	
+<div class="layui-layout layui-layout-admin">
+ 
+  <div class="layui-header">
+      <div class="layui-logo" style="width:300px;">医院门诊信息管理系统管理员端</div>
+      <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+
+      </ul>
+    </div>
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item">
+          <a class="" href="drug.html">药品管理</a>
+        </li>
+        <li class="layui-nav-item">
+          <a class="" href="doctor.html">医生管理</a>
+        </li>
+        <li class="layui-nav-item">
+          <a class="" href="student.html">学生管理</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div id="main" class="layui-body">
+    <!-- 内容主体区域 -->
+	<p id="tip">医院门诊信息管理系统管理员端</p>
+    
+  </div>
+  
+  <div class="layui-footer" >
+
+  </div>
+</div>
+
+
+</body>
+
+</html>

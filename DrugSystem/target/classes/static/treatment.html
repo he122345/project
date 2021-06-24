@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>医疗系统</title>
+  <link rel="stylesheet" href="layui/css/layui.css" media="all">
+  <script type="text/javascript" src="layui/layui.js"></script>
+</head>
+<body class="layui-layout-body">
+
+
+
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">医院门诊系统用户端</div></div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item">
+            <dd><a href="javascript:;">医生编号</a></dd>
+            <dd><a href="javascript:;">挂号管理</a></dd>
+            <dd><a href="javascript:;">看病</a></dd>
+            <dd><a href="javascript:;">取药</a></dd>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div id="main" class="layui-body">
+    <!-- 内容主体区域 -->
+
+  </div>
+  
+  <div class="layui-footer" >
+    <!-- 底部固定区域 -->
+    © layui.com - 底部固定区域
+  </div>
+</div>
+
+<script>
+//JavaScript代码区域
+layui.use('element', function(){
+  var element = layui.element;
+  var $ = layui.jquery;
+	$("a").click(function(){
+		//alert($(this).text());
+		var text = $(this).text()
+		if(text=="医生编号"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="DOCTOR/doctorManagement.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="挂号管理"){
+			$("#main").find("#ifr").remove();
+			$("#main").append('<iframe src="user/register.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="看病"){
+            $("#main").find("#ifr").remove();
+            $("#main").append('<iframe src="user/treat.html" id="ifr" style="width:100%;height:100%"></iframe>');
+		}else if(text=="取药"){
+            $("#main").find("#ifr").remove();
+            $("#main").append('<iframe src="user/getMedicine.html" id="ifr" style="width:100%;height:100%"></iframe>');
+        }
+	})
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title></title>
+		<link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+		<script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+	</head>
+	<body>
+		<form class="layui-form" action="http://www.localhost:8088/drug/insertDrug" method="get">
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">id</label>
+				<div class="layui-input-block">
+					<input type="text" name="drug_id" required  lay-verify="required" placeholder="请输入药品id" autocomplete="off" class="layui-input" style="width:200px">
+				</div>
+			</div>
+
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">药品名</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="dr_name" required  lay-verify="required" placeholder="请输入药品名" autocomplete="off" class="layui-input" style="width:200px">
+		    </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">零售价</label>
+		    <div class="layui-input-inline">
+		      <input type="text" name="dr_price" required lay-verify="required" placeholder="请输入零售价" autocomplete="off" class="layui-input" style="width:200px">
+		    </div></div>
+			<div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">库存</label>
+		    <div class="layui-input-block">
+				<input type="text" name="dr_inventory" required lay-verify="required" placeholder="请输入库存" autocomplete="off" class="layui-input" style="width:200px">
+		    </div>
+		  </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <div class="layui-input-block">
+		      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+		      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		    </div>
+		  </div>
+		</form>
+		 
+		<script>
+		//Demo
+		layui.use(['form','jquery'], function(){
+		  var form = layui.form;
+		  window.jquery = window.$ = layui.jquery;
+		  
+		  //监听提交
+		  form.on('submit(formDemo)', function(data){
+		    layer.msg(JSON.stringify(data.field));//表单中被序列化好的json数据
+			$.get("http://localhost:8088/drug/insertDrug",data.field,function(){
+				window.location.href = "drugManagement.html";
+			})
+		    return false;
+		  });
+		});
+		</script>
+	</body>
+</html>
