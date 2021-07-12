@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品页</title>
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+    <script type="text/javascript" src="../layui/layui.js"></script>
+</head>
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <ul class="layui-nav">
+                <li class="layui-nav-item">
+                    <input type="text" class="layui-input" style="margin-top:1px"  placeholder="输入商品ID查询">
+                </li>
+                <li class="layui-nav-item">
+                    <button class="layui-btn" style="margin-left:20px" id="find">查询</button>
+                </li>
+            </ul>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item" id="after">
+                    <button id="login" class="layui-btn">登录</button>
+                </li>
+            </ul>
+        </div>
+        <div id="main" class="layui-body" style="margin-left:-200px">
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+        </div>
+        <div class="layui-footer" style="margin-left:-200px">底部固定区域
+        </div>
+    </div>
+</div>
+    <input type="hidden" id="UserName">
+<script>
+		//封装了tableInit的对象/函数，根据不同的url来实现表格的渲染
+		var tableInit = function(url){//url代表的是渲染表格的请求路径
+			layui.use('table', function(){
+			  var $ = layui.$;
+			  var table = layui.table;
+			  table.render({
+			    elem: '#test'
+			    ,url: url
+			    ,parseData: function(res){ //res 即为原始返回的数据
+				    return {
+				      "code": 0, //解析接口状态
+				      "msg": "OK", //解析提示文本
+				      "count": 100, //解析数据长度
+				      "data": res //解析数据列表
+				    };
+				}
+			    ,cellMinWidth: 80
+			    ,cols: [[
+			      {field:'id', width:180, title: '编号', sort: true}
+			      ,{field:'name', width:180, title: '名称', sort: true}
+			      ,{field:'price', width:180, title: '价格',sort: true}
+				  ,{fixed: 'right', width:250, align:'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+			    ]]
+			  });
+
+			  //监听工具条
+			  table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+			    var data = obj.data; //获得当前行数据
+			    var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+			    var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+			    if(layEvent === 'del'){ //删除
+			      layer.confirm('真的删除行么', function(index){
+			        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+			        layer.close(index);
+			        //向服务端发送删除指令:ajax
+					var id= data.id;
+					$.ajax({
+						url:"http://localhost:8088/goods/deleteGoods/"+id,
+						success:function(res){
+							console.log(res);
+						}
+					})
+			      });
+			    } else if(layEvent === 'edit'){ //编辑
+			      //do something 跳转到详情编辑界面
+					 //do something 跳转到详情编辑界面
+					// 同步更新缓存对应的值
+					var id = data.id;
+                    layer.open({
+                        type: 2,
+                        title:'输入信息',
+                        area: ['500px', '300px'],
+                        content: 'http://localhost:8088/goods-edit.html',
+                        success: function(layero, index){
+                        var body = layer.getChildFrame('body', index);
+                        body.find('#toid').val(id);
+                        }
+                    })
+
+			    }else if(layEvent === 'insert'){ //添加收藏
+					var username = $("#UserName").val();
+					if(username!=''){
+					var goodsname=data.name;
+                    $.ajax({
+                    type: "get",
+                    url: "http://localhost:8088/insert",
+                    data: {"userName":username,"goodsName":goodsname},//提交的数据
+                    dataType: "json",//返回的数据类型格式
+                    success: function(msg){
+                    console.log(msg);
+                      if(msg==1) layer.msg('成功');
+                      else layer.msg('失败');
+                    }
+                    });
+                    }else layer.msg('请登录');
+			    }
+			  });
+			});
+		}
+
+		tableInit("http://www.localhost:8088/goods/findAllGoods");
+
+		//根据id查询，重新渲染表格，事件和tableInit()绑定
+		layui.use('layer', function(){
+		  var $ = layui.$ //由于layer弹层依赖jQuery，所以可以直接得到
+		  ,layer = layui.layer;
+
+		  //jQuery
+		  $("#find").on('click',function(){
+			  var id = $(this).parent().parent().find(".layui-input").val();
+			  tableInit("http://localhost:8088/goods/findByIdGoods/"+id);
+		  })
+
+		  $("#login").click(function(){
+			  var index=layer.open({
+                        type: 2,
+                        title:'输入账号',
+                        area: ['500px', '300px'],
+                        content: 'http://localhost:8088/Login.html',
+                        success: function(layero, index){
+                        var body = layer.getChildFrame('body', index);
+                        body.find('#btn1').click(function(){
+                        var Name=body.find('#zhanghao').val();
+                        setTimeout(function(){
+
+                    　　console.log(body.find('#zhanghao').val());
+                        console.log(body.find("#response").val());
+                        if(body.find("#response").val()==1){
+                            $("#login").replaceWith(Name);
+                            $("#UserName").val(Name);
+                            $("#after").append('<li class="layui-nav-item"><a href="collect.html">我的收藏</a></li>')
+                            layer.msg('登录成功');
+                            layer.close(index);
+                        }
+                        else{
+                            layer.msg('输入错误');
+                            layer.close(index);
+                        };
+                    　　},100);
+
+                        })
+                        }
+                    })
+		  })
+		});
+		</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="insert">添加收藏</a>
+
+</script>
+</body>
+</html>

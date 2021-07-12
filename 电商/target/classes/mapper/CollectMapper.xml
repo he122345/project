@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goods.Dao.CollectDao">
+    <select id="findAll" resultType="com.goods.domain.Collect" parameterType="String">
+        select * from collect where username=#{userName}
+    </select>
+    <insert id="insert" parameterType="com.goods.domain.Collect">
+        insert into collect(username,goodsname) values(#{userName},#{goodsName})
+    </insert>
+    <delete id="deleteGoods" parameterType="com.goods.domain.Collect">
+        delete from collect where username = #{userName} and goodsname=#{goodsName}
+    </delete>
+    <select id="find"  parameterType="com.goods.domain.Collect" resultType="com.goods.domain.Collect">
+        select * from collect where username=#{userName} and goodsname=#{goodsName}
+    </select>
+</mapper>
