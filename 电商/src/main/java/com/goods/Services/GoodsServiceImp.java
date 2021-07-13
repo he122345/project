@@ -13,6 +13,7 @@ public class GoodsServiceImp implements GoodsService {
     private GoodsDao _goods;
     @Override
     public int insertGoods(Goods goods){
+        if(_goods.findByIdGoods(goods.getId())!=null) return 0;
         return _goods.insertGoods(goods);
     }
     @Override
@@ -25,11 +26,18 @@ public class GoodsServiceImp implements GoodsService {
     }
     @Override
     public Goods findByIdGoods(int id){
+        if(_goods.findByIdGoods(id)==null){
+            return new Goods(0,"不存在",0,"不存在");}
         return _goods.findByIdGoods(id);
     }
     @Override
-    public List<Goods> findAllGoods(){
-        return _goods.findAllGoods();
+    public List<Goods> findAllGoods(int page,int limit){
+        if(page!=0&& limit!=0) return _goods.findAllGoods((page-1)*limit,limit);
+        return _goods.findAllGoods(0,0);
+    }
+    @Override
+    public int count(){
+        return _goods.count();
     }
 
 }

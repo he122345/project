@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface CollectService {
     int insert(Collect collect);
-    int del(String userName);
+    int del(Collect collect);
     List<Collect> findAll(String userName);
 }

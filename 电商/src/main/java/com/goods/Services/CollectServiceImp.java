@@ -13,15 +13,14 @@ public class CollectServiceImp implements CollectService{
     private CollectDao _collect;
     @Override
     public int insert(Collect collect){
-        System.out.println(_collect.find(collect));
         if(_collect.find(collect)!=null) return 0;
         else return _collect.insert(collect);
 
 
     }
     @Override
-    public int del(String userName){
-        return _collect.del(userName);
+    public int del(Collect collect){
+        return _collect.del(collect);
     }
     @Override
     public List<Collect> findAll(String userName){

@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface CollectDao {
     int insert(Collect collect);
-    int del(String userName);
+    int del(Collect collect);
     List<Collect> findAll(String userName);
     Collect find(Collect collect);
 }

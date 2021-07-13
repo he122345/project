@@ -8,12 +8,19 @@
   <script type="text/javascript" src="../layui/layui.js"></script>
 </head>
 <body>
-<form action="http://localhost:8088/goods/updateGoods" method="get" class="layui-form">
+<form  class="layui-form">
   <input type = "hidden"  type="text" name="id" id="toid" />
   <div class="layui-form-item">
     <label class="layui-form-label">商品名</label>
     <div class="layui-input-inline">
       <input type="text" name="Name" required  lay-verify="required" placeholder="请输入商品名" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">商品图片</label>
+    <div class="layui-input-inline">
+      <input type="hidden" name="Image" id="in">
+      <button type="button" class="layui-btn layui-btn-normal" id="choose">选择图片</button>
     </div>
   </div>
   <div class="layui-form-item">
@@ -29,6 +36,42 @@
     </div>
   </div>
 </form>
+<script>
+ layui.use(['form','jquery','layer','upload'], function(){
+		  var form = layui.form;
+		  var layer=layui.layer;
+		  var upload=layui.upload;
+		  window.jquery = window.$ = layui.jquery;
+		  upload.render({
+              elem: '#choose'
+              ,url: '#'
+              ,auto: false
+              ,bindAction: ''
+              ,choose: function(obj){
+                layer.msg('选择图片成功');
+                var files = obj.pushFile();
+                obj.preview(function(index, file, result){
+                  $('#in').val(result);  //得到图片的Base64编码
+                });
+              }
+            });
+          form.on('submit(formDemo)', function(data){
+		     JSON.stringify(data.field);
+			 $.ajax({
+                type: "post",
+                url: "http://localhost:8088/goods/updateGoods",
+                data: data.field,
+                dataType: "json",
+                success: function(msg){
+                console.log(msg);
+                    if(msg==1) layer.msg('成功');
+                    else layer.msg('失败');
+                }
+            });
+		    return false;
+		  });
+ })
+</script>
 </body>
 
 </html>

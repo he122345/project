@@ -10,5 +10,6 @@ public interface GoodsDao {
     int deleteGoods(int id);
     int updateGoods(Goods goods);
     Goods findByIdGoods(int id);
-    List<Goods> findAllGoods();
+    List<Goods> findAllGoods(int start,int mount);
+    int count();
 }

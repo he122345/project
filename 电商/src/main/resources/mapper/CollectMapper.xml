@@ -7,7 +7,7 @@
     <insert id="insert" parameterType="com.goods.domain.Collect">
         insert into collect(username,goodsname) values(#{userName},#{goodsName})
     </insert>
-    <delete id="deleteGoods" parameterType="com.goods.domain.Collect">
+    <delete id="del" parameterType="com.goods.domain.Collect">
         delete from collect where username = #{userName} and goodsname=#{goodsName}
     </delete>
     <select id="find"  parameterType="com.goods.domain.Collect" resultType="com.goods.domain.Collect">

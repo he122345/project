@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goods.Dao.GoodsDao">
-    <select id="findAllGoods" resultType="com.goods.domain.Goods">
-        select * from goods
+    <select id="findAllGoods" resultType="com.goods.domain.Goods" parameterType="int">
+        select * from goods limit #{0},#{1}
     </select>
     <select id="findByIdGoods" resultType="com.goods.domain.Goods" parameterType="int">
         select * from goods where id = #{id}
     </select>
     <insert id="insertGoods" parameterType="com.goods.domain.Goods">
-        insert into goods(id,name,price) values(#{id},#{Name},#{price})
+        insert into goods(id,name,price,image) values(#{id},#{Name},#{price},#{Image})
     </insert>
     <update id="updateGoods" parameterType="com.goods.domain.Goods">
-        update goods set name=#{Name},price=#{price} where id = #{id}
+        update goods set name=#{Name},price=#{price},image=#{image} where id = #{id}
     </update>
     <delete id="deleteGoods" parameterType="int">
         delete from goods where id = #{id}
     </delete>
-
+    <select id="count" resultType="int">
+        select count(*) from goods
+    </select>
 </mapper>

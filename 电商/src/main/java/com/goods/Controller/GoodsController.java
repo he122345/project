@@ -13,7 +13,7 @@ import java.util.List;
 public class GoodsController {
     @Autowired
     private GoodsService _goods;
-    @RequestMapping(value = "insertGoods",method = {RequestMethod.GET})
+    @RequestMapping(value = "insertGoods",method = {RequestMethod.POST})
     public int insertGoods(Goods goods){
         return _goods.insertGoods(goods);
     }
@@ -21,9 +21,8 @@ public class GoodsController {
     public int deleteGoods(@PathVariable int id){
         return _goods.deleteGoods(id);
     }
-    @RequestMapping(value = "updateGoods",produces = "application/json;charset=utf-8",method = {RequestMethod.GET})
+    @RequestMapping(value = "updateGoods",produces = "application/json;charset=utf-8",method = {RequestMethod.POST})
     public int updateGoods(Goods goods){
-        System.out.println(goods);
         return _goods.updateGoods(goods);
     }
     @RequestMapping(value = "findByIdGoods/{id}",method = {RequestMethod.GET})
@@ -33,7 +32,11 @@ public class GoodsController {
         return list;
     }
     @RequestMapping(value = "findAllGoods",method = {RequestMethod.GET})
-    public List<Goods> findAllGoods(){
-        return _goods.findAllGoods();
+    public List<Goods> findAllGoods(int page,int limit){
+        return _goods.findAllGoods(page,limit);
+    }
+    @RequestMapping(value = "count",method = {RequestMethod.GET})
+    public int count(){
+        return _goods.count();
     }
 }

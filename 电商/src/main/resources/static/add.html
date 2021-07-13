@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../layui/layui.js"></script>
+</head>
+<body>
+<form  class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品编号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="id" required  lay-verify="required" placeholder="请输入商品编号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品图片</label>
+        <div class="layui-input-inline">
+            <input type="hidden" name="Image" id="in">
+            <button type="button" class="layui-btn layui-btn-normal" id="choose">选择图片</button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="Name" required  lay-verify="required" placeholder="请输入商品名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">价格</label>
+        <div class="layui-input-inline">
+            <input type="text" name="price" required lay-verify="required" placeholder="请输入价格" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+ layui.use(['form','jquery','layer','upload'], function(){
+      var form = layui.form;
+      var layer=layui.layer;
+      var upload=layui.upload;
+      window.jquery = window.$ = layui.jquery;
+      upload.render({
+          elem: '#choose'
+          ,url: '#'
+          ,auto: false
+          ,bindAction: ''
+          ,choose: function(obj){
+            layer.msg('图片选择成功');
+            var files = obj.pushFile();
+            obj.preview(function(index, file, result){
+              $('#in').val(result);
+            });
+
+          }
+        });
+      form.on('submit(formDemo)', function(data){
+         JSON.stringify(data.field);
+         $.ajax({
+            type: "post",
+            url: "http://localhost:8088/goods/insertGoods",
+            data: data.field,
+            dataType: "json",
+            success: function(msg){
+            console.log(msg);
+              if(msg==1) layer.msg('成功');
+              else layer.msg('失败或者商品已存在');
+            }
+        });
+        return false;
+      });
+  })
+</script>
+</body>
+
+</html>
