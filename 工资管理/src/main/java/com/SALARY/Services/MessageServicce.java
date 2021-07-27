@@ -1,12 +1,10 @@
-package com.SALARY.Dao;
+package com.SALARY.Services;
 
 import com.SALARY.domain.Message;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Mapper
-public interface MessageDao {
+public interface MessageServicce {
     public int insert(Message message);
     public int del(int id);
     public int update(Message message);

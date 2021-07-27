@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.SALARY.Dao.SubsidyDao">
+    <select id="findAll" resultType="com.SALARY.domain.Subsidy">
+        select * from 津贴
+    </select>
+    <select id="findById" resultType="com.SALARY.domain.Subsidy" parameterType="int">
+        select * from 津贴 where 编号=#{id}
+    </select>
+    <insert id="insert" parameterType="com.SALARY.domain.Subsidy">
+        insert into 津贴(编号,加班类别,加半天书,津贴) values(#{id},#{overtime_type},#{overtime_days},#{subsidy})
+    </insert>
+    <delete id="del" parameterType="int">
+        delete from 津贴 where 编号=#{id}
+    </delete>
+    <update id="update" parameterType="com.SALARY.domain.Subsidy">
+        update 津贴 set 加班类别=#{overtime_type},加班天数=#{overtime_days},津贴=#{overtime_type} where 编号 = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.SALARY.Dao.AttendanceDao">
+    <select id="findAll" resultType="com.SALARY.domain.Attendance">
+        select * from 考勤
+    </select>
+    <select id="findById" resultType="com.SALARY.domain.Attendance" parameterType="int">
+        select * from 考勤 where 编号=#{id}
+    </select>
+    <insert id="insert" parameterType="com.SALARY.domain.Attendance">
+        insert into 考勤(编号,月出勤天数) values(#{id},#{days})
+    </insert>
+    <delete id="del" parameterType="int">
+        delete from 考勤 where 编号=#{id}
+    </delete>
+    <update id="update" parameterType="com.SALARY.domain.Attendance">
+        update 考勤 set 月出勤天数=#{id} where 编号 = #{id}
+    </update>
+</mapper>
