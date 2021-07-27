@@ -14,6 +14,6 @@
         delete from 津贴 where 编号=#{id}
     </delete>
     <update id="update" parameterType="com.SALARY.domain.Subsidy">
-        update 津贴 set 加班类别=#{overtime_type},加班天数=#{overtime_days},津贴=#{overtime_type} where 编号 = #{id}
+        update 津贴 set 加班类别=#{overtime_type},加班天数=#{overtime_days},津贴=#{subsidy} where 编号 = #{id}
     </update>
 </mapper>

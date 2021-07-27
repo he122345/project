@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+    <script type="text/javascript" src="../layui/layui.js"></script>
+</head>
+<body class="layui-layout-body">
+  <div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+      <div class="layui-logo">工资管理系统</div>
+      <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+          <input type="text" class="layui-input" style="margin-top:1px"  placeholder="输入工人编号查询">
+        </li>
+        <li class="layui-nav-item">
+          <button class="layui-btn" style="margin-left:20px" id="find">查询</button>
+        </li>
+        <li class="layui-nav-item">
+          <button class="layui-btn" style="margin-left:20px" id="insert">新增工人</button>
+        </li>
+      </ul>
+    </div>
+    <div class="layui-body" style="margin-left:-200px">
+      <table class="layui-hide" id="test" lay-filter="test"></table>
+    </div>
+    <div class="layui-footer" style="margin-left:-200px">底部固定区域</div>
+  </div>
+</body>
+</html>
