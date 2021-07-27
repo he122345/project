@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Type {
     private int id;
-    private String type;
+    private String kind;
     private String level;
     private String department;
     private int basic_salary;
@@ -12,9 +12,9 @@ public class Type {
     public Type() {
     }
 
-    public Type(int id, String type, String level, String department, int basic_salary) {
+    public Type(int id, String kind, String level, String department, int basic_salary) {
         this.id = id;
-        this.type = type;
+        this.kind = kind;
         this.level = level;
         this.department = department;
         this.basic_salary = basic_salary;
@@ -28,12 +28,12 @@ public class Type {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getKind() {
+        return kind;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 
     public String getLevel() {
@@ -64,20 +64,20 @@ public class Type {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Type type1 = (Type) o;
-        return id == type1.id && basic_salary == type1.basic_salary && type.equals(type1.type) && level.equals(type1.level) && department.equals(type1.department);
+        Type type = (Type) o;
+        return id == type.id && basic_salary == type.basic_salary && Objects.equals(kind, type.kind) && Objects.equals(level, type.level) && Objects.equals(department, type.department);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, level, department, basic_salary);
+        return Objects.hash(id, kind, level, department, basic_salary);
     }
 
     @Override
     public String toString() {
         return "Type{" +
                 "id=" + id +
-                ", type='" + type + '\'' +
+                ", kind='" + kind + '\'' +
                 ", level='" + level + '\'' +
                 ", department='" + department + '\'' +
                 ", basic_salary=" + basic_salary +

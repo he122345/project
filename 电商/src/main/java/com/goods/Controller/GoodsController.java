@@ -33,6 +33,7 @@ public class GoodsController {
     }
     @RequestMapping(value = "findAllGoods",method = {RequestMethod.GET})
     public List<Goods> findAllGoods(int page,int limit){
+        System.out.println(_goods.findAllGoods(page,limit));
         return _goods.findAllGoods(page,limit);
     }
     @RequestMapping(value = "count",method = {RequestMethod.GET})

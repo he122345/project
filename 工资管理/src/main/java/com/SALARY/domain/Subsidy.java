@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Subsidy {
     private int id;
+    private int month;
     private String overtime_type;
     private int overtime_days;
     private int subsidy;
@@ -11,8 +12,9 @@ public class Subsidy {
     public Subsidy() {
     }
 
-    public Subsidy(int id, String overtime_type, int overtime_days, int subsidy) {
+    public Subsidy(int id, int month, String overtime_type, int overtime_days, int subsidy) {
         this.id = id;
+        this.month = month;
         this.overtime_type = overtime_type;
         this.overtime_days = overtime_days;
         this.subsidy = subsidy;
@@ -24,6 +26,14 @@ public class Subsidy {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
     }
 
     public String getOvertime_type() {
@@ -55,18 +65,19 @@ public class Subsidy {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Subsidy subsidy1 = (Subsidy) o;
-        return id == subsidy1.id && overtime_days == subsidy1.overtime_days && subsidy == subsidy1.subsidy && Objects.equals(overtime_type, subsidy1.overtime_type);
+        return id == subsidy1.id && month == subsidy1.month && overtime_days == subsidy1.overtime_days && subsidy == subsidy1.subsidy && Objects.equals(overtime_type, subsidy1.overtime_type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, overtime_type, overtime_days, subsidy);
+        return Objects.hash(id, month, overtime_type, overtime_days, subsidy);
     }
 
     @Override
     public String toString() {
         return "Subsidy{" +
                 "id=" + id +
+                ", month=" + month +
                 ", overtime_type='" + overtime_type + '\'' +
                 ", overtime_days=" + overtime_days +
                 ", subsidy=" + subsidy +

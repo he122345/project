@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.SALARY.Dao.ShowDao">
+    <select id="findAll" resultType="com.SALARY.domain.Show" parameterType="int">
+        select me.id,me.name,me.photo,me.age,me.phone,at.days,sa.salary,su.overtime_type,su.overtime_days,su.subsidy,ty.kind,ty.level,ty.department,ty.basic_salary
+        from message as me,attendancemonth as at,salarymonth as sa,subsidymonth as su,type as ty
+        where me.id=at.id and at.id=sa.id and sa.id=su.id and su.id=ty.id and at.month=sa.month and sa.month=su.month and su.month=#{month}
+    </select>
+    <select id="findById" resultType="com.SALARY.domain.Show" parameterType="int">
+        select me.id,me.name,me.photo,me.age,me.phone,at.days,sa.salary,su.overtime_type,su.overtime_days,su.subsidy,ty.kind,ty.level,ty.department,ty.basic_salary
+        from message as me,attendancemonth as at,salarymonth as sa,subsidymonth as su,type as ty
+        where me.id=at.id and at.id=sa.id and sa.id=su.id and su.id=ty.id and at.month=sa.month and sa.month=su.month and su.month=#{1} and me.id=#{0}
+    </select>
+    <select id="count" resultType="int">
+        select count(*) from message
+    </select>
+</mapper>
