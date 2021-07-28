@@ -30,14 +30,14 @@ public class SubsidyController {
     }
 
     @RequestMapping(value = "findById",method = {RequestMethod.GET})
-    public List<Salary> findById(int id) {
-        List<Salary> list=new ArrayList<Salary>();
+    public List<Subsidy> findById(int id) {
+        List<Subsidy> list=new ArrayList<Subsidy>();
         list.add(_subsidy.findById(id));
         return list;
     }
 
     @RequestMapping(value = "findAll",method = {RequestMethod.GET})
-    public List<Salary> findAll() {
+    public List<Subsidy> findAll() {
         return _subsidy.findAll();
     }
 }

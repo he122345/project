@@ -9,6 +9,6 @@ public interface SubsidyService {
     public int insert(Subsidy subsidy);
     public int update(Subsidy subsidy);
     public int del(int id);
-    public Salary findById(int id);
-    public List<Salary> findAll();
+    public Subsidy findById(int id);
+    public List<Subsidy> findAll();
 }

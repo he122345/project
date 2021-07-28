@@ -28,12 +28,12 @@ public class SubsidyServiceImp implements SubsidyService{
     }
 
     @Override
-    public Salary findById(int id) {
+    public Subsidy findById(int id) {
         return _subsidy.findById(id);
     }
 
     @Override
-    public List<Salary> findAll() {
+    public List<Subsidy> findAll() {
         return _subsidy.findAll();
     }
 }

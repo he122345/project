@@ -8,7 +8,7 @@
         select * from subsidymonth where id=#{id}
     </select>
     <insert id="insert" parameterType="com.SALARY.domain.Subsidy">
-        insert into subsidymonth(id,month,overtime_type,overtime_days,subsidymonth) values(#{id},#{month},#{overtime_type},#{overtime_days},#{subsidy})
+        insert into subsidymonth(id,month,overtime_type,overtime_days,subsidy) values(#{id},#{month},#{overtime_type},#{overtime_days},#{subsidy})
     </insert>
     <delete id="del" parameterType="int">
         delete from subsidymonth where id=#{id}

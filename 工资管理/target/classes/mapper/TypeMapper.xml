@@ -8,7 +8,7 @@
         select * from type where id=#{id}
     </select>
     <insert id="insert" parameterType="com.SALARY.domain.Type">
-        insert into type(id,kind,level,department,basic_salary) values(#{id},#{type},#{level},#{basic_salary})
+        insert into type(id,kind,level,department,basic_salary) values(#{id},#{kind},#{level},#{department},#{basic_salary})
     </insert>
     <delete id="del" parameterType="int">
         delete from type where id=#{id}

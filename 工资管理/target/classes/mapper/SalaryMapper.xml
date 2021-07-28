@@ -8,7 +8,7 @@
         select * from salarymonth where id=#{id}
     </select>
     <insert id="insert" parameterType="com.SALARY.domain.Salary">
-        insert into salarymonth(id,month,salarymonth) values(#{id},#{month},#{salary})
+        insert into salarymonth(id,month,salary) values(#{id},#{month},#{salary})
     </insert>
     <delete id="del" parameterType="int">
         delete from salarymonth where id=#{id}
