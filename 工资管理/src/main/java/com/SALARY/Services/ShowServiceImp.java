@@ -13,7 +13,10 @@ public class ShowServiceImp implements ShowService{
     private ShowDao _show;
     @Override
     public Show findById(int month,int id,int page,int limit) {
-        return _show.findById(month,id,page,limit);
+        if(page!=0&& limit!=0) {
+            return _show.findById(month,id,(page-1)*limit,limit);
+        }
+        return _show.findById(month,id,0,0);
     }
     @Override
     public List<Show> findAll(int month,int page,int limit) {

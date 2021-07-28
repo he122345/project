@@ -17,7 +17,12 @@ public class ShowController {
     @RequestMapping(value = "findById/{month}/{id}",method = {RequestMethod.GET})
     public List<Show> findById(@PathVariable int month,@PathVariable int id,int page,int limit) {
         List<Show> list=new ArrayList<Show>();
-        list.add(_show.findById(month,id,page,limit));
+        if(_show.findById(month,id,page,limit)!=null){
+            list.add(_show.findById(month,id,page,limit));
+        }
+        else {
+            list.add(new Show());
+        }
         return list;
     }
     @RequestMapping(value = "findAll/{month}",method = {RequestMethod.GET})

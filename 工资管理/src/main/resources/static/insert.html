@@ -24,7 +24,7 @@
     <label class="layui-form-label">照片</label>
     <div class="layui-input-inline">
       <input type="hidden" name="photo" id="in">
-      <button type="button" class="layui-btn layui-btn-normal" id="choose">选择照片</button>
+      <button type="button" class="layui-btn layui-btn-normal" id="choose">选择照片</button>照片小于1.5M
       <img src="" id="photo" style="width:150px">
     </div>
   </div>
@@ -47,9 +47,19 @@
     </div>
   </div>
   <div class="layui-form-item">
-    <label class="layui-form-label">加班类型</label>
+    <label class="layui-form-label">出勤天数</label>
     <div class="layui-input-inline">
-      <input type="text" name="overtime_type" placeholder="请输入加班类型" autocomplete="off" class="layui-input">
+      <input type="text" name="days" placeholder="请输入出勤天数" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">加班类型</label>
+    <div class="layui-input-block">
+      <select name="overtime_type" style="width:167px;">
+        <option value=""></option>
+        <option value="白班">白班</option>
+        <option value="晚班">晚班</option>
+      </select>
     </div>
   </div>
   <div class="layui-form-item">
@@ -60,20 +70,33 @@
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">工种</label>
-    <div class="layui-input-inline">
-      <input type="text" name="kind" placeholder="请输入工种" autocomplete="off" class="layui-input">
+    <div class="layui-input-block">
+      <select name="kind" style="width:167px;">
+        <option value=""></option>
+        <option value="程序员">程序员</option>
+        <option value="设计师">设计师</option>
+      </select>
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">等级</label>
-    <div class="layui-input-inline">
-      <input type="text" name="level" placeholder="请输入等级" autocomplete="off" class="layui-input">
+    <div class="layui-input-block">
+      <select name="level" style="width:167px;">
+        <option value=""></option>
+        <option value="低">低</option>
+        <option value="中">中</option>
+        <option value="高">高</option>
+      </select>
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">部门</label>
-    <div class="layui-input-inline">
-      <input type="text" name="department" placeholder="请输入部门" autocomplete="off" class="layui-input">
+    <div class="layui-input-block">
+      <select name="department" style="width:167px;">
+        <option value=""></option>
+        <option value="商业">开发</option>
+        <option value="商业">商业</option>
+      </select>
     </div>
   </div>
   <div class="layui-form-item">
@@ -98,6 +121,7 @@
    upload.render({
      elem: '#choose'
      ,url: '#'
+     ,size:1536
      ,auto: false
      ,bindAction: ''
      ,choose: function(obj){
@@ -112,65 +136,55 @@
    form.on('submit(formDemo)', function(data){
      if(data.field.age=='') data.field.age=0;
      if(data.field.month=='') data.field.month=9;
+     if(data.field.days=='') data.field.days=0;
      if(data.field.overtime_days=='') data.field.overtime_days=0;
      if(data.field.basic_salary=='') data.field.basic_salary=0;
-     if(data.field.overtime_type=='晚班') var subsidy=data.field.overtime_days*200;
-     if(data.field.overtime_type=='白班') var subsidy=data.field.overtime_days*150;
-     if(data.field.overtime_days!=0) var salary=data.field.basic_salary+subsidy+(20-data.field.overtime_days)*100;
+     if(data.field.overtime_type=="晚班") {var subsidy=data.field.overtime_days*200;}
+     else if(data.field.overtime_type=="白班") {var subsidy=data.field.overtime_days*150;}
+     else {var subsidy=0;}
+     var salary=Number(data.field.basic_salary)+Number(subsidy)+Number((data.field.days-20)*100);
      $.ajax({
        type: "post",
        url: "http://localhost:8089/message/insert",
        data: {"id":data.field.id,"name":data.field.name,"photo":data.field.photo,"age":data.field.age,"phone":data.field.phone},
        dataType: "json",
        success: function(msg){
-         if(msg==1){
            $.ajax({
              type: "get",
              url: "http://localhost:8089/attendance/insert",
              data: {"id":data.field.id,"month":data.field.month,"days":data.field.days},
              dataType: "json",
              success: function(msg){
-               if(msg==1){
                  $.ajax({
                    type: "get",
                    url: "http://localhost:8089/subsidy/insert",
                    data: {"id":data.field.id,"month":data.field.month,"overtime_type":data.field.overtime_type,"overtime_days":data.field.overtime_days,"subsidy":subsidy},
                    dataType: "json",
                    success: function(msg){
-                     if(msg==1){
                        $.ajax({
                          type: "get",
                          url: "http://localhost:8089/type/insert",
                          data: {"id":data.field.id,"kind":data.field.kind,"level":data.field.level,"department":data.field.department,"basic_salary":data.field.basic_salary},
                          dataType: "json",
                          success: function(msg){
-                           if(msg==1){
-                             $.ajax({
-                               type: "get",
-                               url: "http://localhost:8089/salary/insert",
-                               data: {"id":data.field.id,"month":data.field.month,"salary":salary},
-                               dataType: "json",
-                               success: function(msg){
-                                 if(msg==1){
-                                   layer.msg('增加成功');
-                                 }
-                                 else layer.msg('增加工资信息失败！');
-                               }
-                             });
-                           }
-                           else layer.msg('增加工种失败！');
+                           $.ajax({
+                             type: "get",
+                             url: "http://localhost:8089/salary/insert",
+                             data: {"id":data.field.id,"month":data.field.month,"salary":salary},
+                             dataType: "json",
+                             success: function(msg){
+                               var index = parent.layer.getFrameIndex(window.name);
+                               parent.layer.msg('成功');
+                               parent.location.reload();
+                               parent.layer.close(index);
+                             }
+                           });
                          }
                        });
-                     }
-                     else layer.msg('增加津贴信息失败！');
                    }
                  });
-               }
-               else layer.msg('增加出勤信息失败！');
              }
            });
-         }
-         else layer.msg('增加工人信息失败！');
        }
      });
      return false;

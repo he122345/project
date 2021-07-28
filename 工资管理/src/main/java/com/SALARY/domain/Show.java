@@ -8,6 +8,7 @@ public class Show {
     private String photo;
     private int age;
     private String phone;
+    private int month;
     private int days;
     private int salary;
     private String overtime_type;
@@ -19,6 +20,24 @@ public class Show {
     private int basic_salary;
 
     public Show() {
+    }
+
+    public Show(int id, String name, String photo, int age, String phone, int month, int days, int salary, String overtime_type, int overtime_days, int subsidy, String kind, String level, String department, int basic_salary) {
+        this.id = id;
+        this.name = name;
+        this.photo = photo;
+        this.age = age;
+        this.phone = phone;
+        this.month = month;
+        this.days = days;
+        this.salary = salary;
+        this.overtime_type = overtime_type;
+        this.overtime_days = overtime_days;
+        this.subsidy = subsidy;
+        this.kind = kind;
+        this.level = level;
+        this.department = department;
+        this.basic_salary = basic_salary;
     }
 
     public int getId() {
@@ -59,6 +78,14 @@ public class Show {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
     }
 
     public int getDays() {
@@ -133,34 +160,17 @@ public class Show {
         this.basic_salary = basic_salary;
     }
 
-    public Show(int id, String name, String photo, int age, String phone, int days, int salary, String overtime_type, int overtime_days, int subsidy, String kind, String level, String department, int basic_salary) {
-        this.id = id;
-        this.name = name;
-        this.photo = photo;
-        this.age = age;
-        this.phone = phone;
-        this.days = days;
-        this.salary = salary;
-        this.overtime_type = overtime_type;
-        this.overtime_days = overtime_days;
-        this.subsidy = subsidy;
-        this.kind = kind;
-        this.level = level;
-        this.department = department;
-        this.basic_salary = basic_salary;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Show show = (Show) o;
-        return id == show.id && age == show.age && days == show.days && salary == show.salary && overtime_days == show.overtime_days && subsidy == show.subsidy && basic_salary == show.basic_salary && Objects.equals(name, show.name) && Objects.equals(photo, show.photo) && Objects.equals(phone, show.phone) && Objects.equals(overtime_type, show.overtime_type) && Objects.equals(kind, show.kind) && Objects.equals(level, show.level) && Objects.equals(department, show.department);
+        return id == show.id && age == show.age && month == show.month && days == show.days && salary == show.salary && overtime_days == show.overtime_days && subsidy == show.subsidy && basic_salary == show.basic_salary && Objects.equals(name, show.name) && Objects.equals(photo, show.photo) && Objects.equals(phone, show.phone) && Objects.equals(overtime_type, show.overtime_type) && Objects.equals(kind, show.kind) && Objects.equals(level, show.level) && Objects.equals(department, show.department);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, photo, age, phone, days, salary, overtime_type, overtime_days, subsidy, kind, level, department, basic_salary);
+        return Objects.hash(id, name, photo, age, phone, month, days, salary, overtime_type, overtime_days, subsidy, kind, level, department, basic_salary);
     }
 
     @Override
@@ -171,6 +181,7 @@ public class Show {
                 ", photo='" + photo + '\'' +
                 ", age=" + age +
                 ", phone='" + phone + '\'' +
+                ", month=" + month +
                 ", days=" + days +
                 ", salary=" + salary +
                 ", overtime_type='" + overtime_type + '\'' +

@@ -74,7 +74,9 @@
           ,{field:'photo', width:130, title: '照片',templet: '#titleTpl'}
           ,{field:'age', width:100, title: '年龄',sort: true}
           ,{field:'phone', width:120, title: '电话'}
+          ,{field:'month', width:100, title: '月份',sort:true}
           ,{field:'salary', width:100, title: '月工资',sort: true}
+          ,{field:'days', width:100, title: '出勤天数',sort: true}
           ,{field:'overtime_type', width:100, title: '加班类型'}
           ,{field:'overtime_days', width:120, title: '加班天数',sort: true}
           ,{field:'subsidy', width:100, title: '津贴',sort: true}
@@ -138,7 +140,7 @@
       });
     });
   }
-  tableInit("http://www.localhost:8089/show/findAll/"+9);
+  tableInit("http://www.localhost:8089/show/findAll/"+0);
   layui.use('layer', function(){
     var $ = layui.$
     ,layer = layui.layer;
@@ -148,7 +150,7 @@
       var month=$("#findMonth").val();
       if(id==''&&month!='') tableInit("http://www.localhost:8089/show/findAll/"+month);
       else if(month==''&&id!='') tableInit("http://localhost:8089/show/findById/"+0+"/"+id);
-      else if(month==''&&id=='') tableInit("http://www.localhost:8089/show/findAll/"+9);
+      else if(month==''&&id=='') tableInit("http://www.localhost:8089/show/findAll/"+0);
       else tableInit("http://localhost:8089/show/findById/"+month+"/"+id);
     })
     $("#insert").on('click',function(){
