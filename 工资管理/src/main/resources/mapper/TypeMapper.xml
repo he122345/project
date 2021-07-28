@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.SALARY.Dao.TypeDao">
     <select id="findAll" resultType="com.SALARY.domain.Type">
-        select * from 工种情况
+        select * from type
     </select>
     <select id="findById" resultType="com.SALARY.domain.Type" parameterType="int">
-        select * from 工种情况 where 编号=#{id}
+        select * from type where id=#{id}
     </select>
     <insert id="insert" parameterType="com.SALARY.domain.Type">
-        insert into 工种情况(编号,工种,等级,部门,基本工资) values(#{id},#{type},#{level},#{basic_salary})
+        insert into type(id,kind,level,department,basic_salary) values(#{id},#{type},#{level},#{basic_salary})
     </insert>
     <delete id="del" parameterType="int">
-        delete from 工种情况 where 编号=#{id}
+        delete from type where id=#{id}
     </delete>
     <update id="update" parameterType="com.SALARY.domain.Type">
-        update 工种情况 set 工种=#{type},等级=#{level},部门=#{department},基本工资=#{basic_salary} where 编号 = #{id}
+        update type set kind=#{type},level=#{level},department=#{department},basic_salary=#{basic_salary} where id = #{id}
     </update>
 </mapper>

@@ -3,10 +3,7 @@ package com.SALARY.Controller;
 import com.SALARY.Services.SalaryService;
 import com.SALARY.domain.Salary;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +22,8 @@ public class SalaryController {
     public int update(Salary salary) {
         return _salary.update(salary);
     }
-    @RequestMapping(value = "del",method = {RequestMethod.GET})
-    public int del(int id) {
+    @RequestMapping(value = "del/{id}",method = {RequestMethod.GET})
+    public int del(@PathVariable int id) {
         return _salary.del(id);
     }
     @RequestMapping(value = "findById",method = {RequestMethod.GET})

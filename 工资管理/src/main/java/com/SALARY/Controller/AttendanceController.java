@@ -3,10 +3,7 @@ package com.SALARY.Controller;
 import com.SALARY.Services.AttendanceService;
 import com.SALARY.domain.Attendance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +18,8 @@ public class AttendanceController {
     public int insert(Attendance attendance) {
         return _attendance.insert(attendance);
     }
-    @RequestMapping(value = "del",method = {RequestMethod.GET})
-    public int del(int id) {
+    @RequestMapping(value = "del/{id}",method = {RequestMethod.GET})
+    public int del(@PathVariable int id) {
         return _attendance.del(id);
     }
     @RequestMapping(value = "update",method = {RequestMethod.GET})

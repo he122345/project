@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.SALARY.Dao.SubsidyDao">
     <select id="findAll" resultType="com.SALARY.domain.Subsidy">
-        select * from 津贴
+        select * from subsidymonth
     </select>
     <select id="findById" resultType="com.SALARY.domain.Subsidy" parameterType="int">
-        select * from 津贴 where 编号=#{id}
+        select * from subsidymonth where id=#{id}
     </select>
     <insert id="insert" parameterType="com.SALARY.domain.Subsidy">
-        insert into 津贴(编号,月份,加班类别,加半天书,津贴) values(#{id},#{month},#{overtime_type},#{overtime_days},#{subsidy})
+        insert into subsidymonth(id,month,overtime_type,overtime_days,subsidymonth) values(#{id},#{month},#{overtime_type},#{overtime_days},#{subsidy})
     </insert>
     <delete id="del" parameterType="int">
-        delete from 津贴 where 编号=#{id}
+        delete from subsidymonth where id=#{id}
     </delete>
     <update id="update" parameterType="com.SALARY.domain.Subsidy">
-        update 津贴 set 月份=#{month},加班类别=#{overtime_type},加班天数=#{overtime_days},津贴=#{subsidy} where 编号 = #{id}
+        update subsidymonth set month=#{month},overtime_type=#{overtime_type},overtime_days=#{overtime_days},subsidymonth=#{subsidy} where id = #{id}
     </update>
 </mapper>

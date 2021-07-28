@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.SALARY.Dao.AttendanceDao">
     <select id="findAll" resultType="com.SALARY.domain.Attendance">
-        select * from 考勤
+        select * from attendancemonth
     </select>
     <select id="findById" resultType="com.SALARY.domain.Attendance" parameterType="int">
-        select * from 考勤 where 编号=#{id}
+        select * from attendancemonth where id=#{id}
     </select>
     <insert id="insert" parameterType="com.SALARY.domain.Attendance">
-        insert into 考勤(编号,月份,月出勤天数) values(#{id},#{month},#{days})
+        insert into attendancemonth(id,month,days) values(#{id},#{month},#{days})
     </insert>
     <delete id="del" parameterType="int">
-        delete from 考勤 where 编号=#{id}
+        delete from attendancemonth where id=#{id}
     </delete>
     <update id="update" parameterType="com.SALARY.domain.Attendance">
-        update 考勤 set 月份=#{month},月出勤天数=#{days} where 编号 = #{id}
+        update attendancemonth set month=#{month},days=#{days} where id = #{id}
     </update>
 </mapper>

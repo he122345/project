@@ -5,6 +5,7 @@ import com.SALARY.domain.Show;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -13,14 +14,15 @@ import java.util.List;
 public class ShowController {
     @Autowired
     private ShowService _show;
-    @RequestMapping(value = "findById",method = {RequestMethod.GET})
-    public Show findById(int id,int month) {
-        return _show.findById(id,month);
+    @RequestMapping(value = "findById/{month}/{id}",method = {RequestMethod.GET})
+    public List<Show> findById(@PathVariable int month,@PathVariable int id,int page,int limit) {
+        List<Show> list=new ArrayList<Show>();
+        list.add(_show.findById(month,id,page,limit));
+        return list;
     }
-    @RequestMapping(value = "findAll",method = {RequestMethod.GET})
-    public List<Show> findAll(int page,int limit) {
-        System.out.println(page+","+limit);
-        return _show.findAll(1);
+    @RequestMapping(value = "findAll/{month}",method = {RequestMethod.GET})
+    public List<Show> findAll(@PathVariable int month,int page,int limit) {
+        return _show.findAll(month,page,limit);
     }
     @RequestMapping(value = "count",method = {RequestMethod.GET})
     public int count(){

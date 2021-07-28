@@ -18,8 +18,8 @@ public class MessageController {
     public int insert(Message message) {
         return _message.insert(message);
     }
-    @RequestMapping(value = "del",method = {RequestMethod.GET})
-    public int del(int id) {
+    @RequestMapping(value = "del/{id}",method = {RequestMethod.GET})
+    public int del(@PathVariable int id) {
         return _message.del(id);
     }
     @RequestMapping(value = "update",method = {RequestMethod.POST})

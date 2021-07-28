@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.SALARY.Dao.SalaryDao">
     <select id="findAll" resultType="com.SALARY.domain.Salary">
-        select * from 月工资
+        select * from salarymonth
     </select>
     <select id="findById" resultType="com.SALARY.domain.Salary" parameterType="int">
-        select * from 月工资 where 编号=#{id}
+        select * from salarymonth where id=#{id}
     </select>
     <insert id="insert" parameterType="com.SALARY.domain.Salary">
-        insert into 月工资(编号,月份,月工资) values(#{id},#{month},#{salary})
+        insert into salarymonth(id,month,salarymonth) values(#{id},#{month},#{salary})
     </insert>
     <delete id="del" parameterType="int">
-        delete from 月工资 where 编号=#{id}
+        delete from salarymonth where id=#{id}
     </delete>
     <update id="update" parameterType="com.SALARY.domain.Salary">
-        update 月工资 set 月份=#{month},月工资=#{salary} where 编号 = #{id}
+        update salarymonth set month=#{month},salarymonth=#{salary} where id = #{id}
     </update>
 </mapper>

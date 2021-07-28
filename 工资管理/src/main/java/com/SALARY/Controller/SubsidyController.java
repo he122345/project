@@ -4,10 +4,7 @@ import com.SALARY.Services.SubsidyService;
 import com.SALARY.domain.Salary;
 import com.SALARY.domain.Subsidy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +24,8 @@ public class SubsidyController {
         return _subsidy.update(subsidy);
     }
 
-    @RequestMapping(value = "del",method = {RequestMethod.GET})
-    public int del(int id) {
+    @RequestMapping(value = "del/{id}",method = {RequestMethod.GET})
+    public int del(@PathVariable int id) {
         return _subsidy.del(id);
     }
 

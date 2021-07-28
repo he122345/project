@@ -5,28 +5,28 @@
     <title>Title</title>
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script type="text/javascript" src="../layui/layui.js"></script>
+    <style>
+        .layui-table-cell {height: auto;}
+    </style>
 </head>
 <body class="layui-layout-body">
   <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
       <div class="layui-logo">工资管理系统</div>
       <ul class="layui-nav">
-        <li class="layui-nav-item">
-          <input type="text" class="layui-input" style="margin-top:1px;margin-left:200px;width:200px"  placeholder="输入月份查询">
-        </li>
-        <li class="layui-nav-item">
-          <button class="layui-btn" style="margin-left:20px" id="findmonth">查询</button>
+        <li class="layui-nav-item" style="margin-left:200px">
+          <button class="layui-btn" style="margin-left:20px" id="insert">新增工人</button>
         </li>
       </ul>
       <ul class="layui-nav layui-layout-right">
-        <li class="layui-nav-item">
-          <input type="text" class="layui-input" style="margin-top:1px"  placeholder="输入工人编号查询">
+        <li class="layui-nav-item"style="width:180px">
+          <input type="text" id="findMonth" class="layui-input" style="margin-top:1px;width:150px"  placeholder="输入月份查询">
+        </li>
+        <li class="layui-nav-item" style="width:180px">
+          <input type="text" id="findId" class="layui-input" style="margin-top:1px;width:150px"  placeholder="输入工人编号查询">
         </li>
         <li class="layui-nav-item">
           <button class="layui-btn" style="margin-left:20px" id="find">查询</button>
-        </li>
-        <li class="layui-nav-item">
-          <button class="layui-btn" style="margin-left:20px" id="insert">新增工人</button>
         </li>
       </ul>
     </div>
@@ -35,12 +35,19 @@
     </div>
     <div class="layui-footer" style="margin-left:-200px">底部固定区域</div>
   </div>
+  <input type="hidden" id="Count">
 </body>
 <script>
   var tableInit = function(url){//url代表的是渲染表格的请求路径
     layui.use('table', function(){
       var $ = layui.$;
       var table = layui.table;
+      $.ajax({
+        url:"http://localhost:8089/show/count",
+        success:function(res){
+          $('#Count').val(res);
+        }
+      });
       table.render({
         elem: '#test'
         ,url: url
@@ -48,17 +55,23 @@
             return {
               "code": 0,
               "msg": "OK",
-              "count": $.ajax({
-                url:"http://localhost:8089/show/count",
-              }),
+              "count":$('#Count').val(),
               "data": res
             };
         }
         ,cellMinWidth: 80
+        ,page:{
+          layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+          ,limit:5
+          ,limits:[5,10,15]
+          ,groups: 3
+          ,first: "首页"
+          ,last: "尾页"
+        }
         ,cols: [[
           {field:'id', width:100, title: '编号', sort: true}
           ,{field:'name', width:100, title: '姓名',sort: true}
-          ,{field:'photo', width:100, title: '照片',templet: '#titleTpl'}
+          ,{field:'photo', width:130, title: '照片',templet: '#titleTpl'}
           ,{field:'age', width:100, title: '年龄',sort: true}
           ,{field:'phone', width:120, title: '电话'}
           ,{field:'salary', width:100, title: '月工资',sort: true}
@@ -69,12 +82,85 @@
           ,{field:'level', width:100, title: '等级',sort: true}
           ,{field:'department', width:100, title: '部门',sort: true}
           ,{field:'basic_salary', width:120, title: '基本工资',sort: true}
-          ,{fixed: 'right', width:150, align:'center', toolbar: '#barDemo'}
+          ,{fixed: 'right',title:'工具栏', height:100,width:150, align:'center', toolbar: '#barDemo'}
         ]]
       });
-
+      table.on('tool(test)', function(obj){
+        var data = obj.data;
+        var layEvent = obj.event;
+        var tr = obj.tr;
+        if(layEvent === 'del'){ //删除
+          layer.confirm('真的删除么', function(index){
+            obj.del();
+            layer.close(index);
+            var id= data.id;
+            $.ajax({
+              url:"http://localhost:8089/attendance/del/"+id,
+              success:function(res){
+                if(res==1){
+                  $.ajax({
+                    url:"http://localhost:8089/salary/del/"+id,
+                    success:function(res){
+                      if(res==1){
+                        $.ajax({
+                          url:"http://localhost:8089/subsidy/del/"+id,
+                          success:function(res){
+                            if(res==1){
+                              $.ajax({
+                                url:"http://localhost:8089/type/del/"+id,
+                                success:function(res){
+                                  if(res==1){
+                                    $.ajax({
+                                      url:"http://localhost:8089/message/del/"+id,
+                                      success:function(res){
+                                        if(res==1) layer.msg('删除成功');
+                                        else layer.msg('员工删除失败');
+                                      }
+                                    });
+                                  }
+                                  else layer.msg('工种信息删除失败');
+                                }
+                              });
+                            }
+                            else layer.msg('津贴数据删除失败');
+                          }
+                        });
+                      }
+                      else layer.msg('月工资数据删除失败');
+                    }
+                  });
+                }
+                else layer.msg('出勤数据删除失败');
+			  }
+            });
+          });
+        }
+      });
     });
   }
-  tableInit("http://www.localhost:8089/show/findAll");
+  tableInit("http://www.localhost:8089/show/findAll/"+9);
+  layui.use('layer', function(){
+    var $ = layui.$
+    ,layer = layui.layer;
+    //查询
+    $("#find").on('click',function(){
+      var id = $("#findId").val();
+      var month=$("#findMonth").val();
+      if(id==''&&month!='') tableInit("http://www.localhost:8089/show/findAll/"+month);
+      else if(month==''&&id!='') tableInit("http://localhost:8089/show/findById/"+0+"/"+id);
+      else if(month==''&&id=='') ;
+      else tableInit("http://localhost:8089/show/findById/"+month+"/"+id);
+    })
+  });
+</script>
+<script type="text/html" id="barDemo">
+  <div style="height:100px;">
+    <div style="padding-top:35px">
+      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </div>
+  </div>
+</script>
+<script type="text/html" id="titleTpl">
+  <img src="{{d.photo}}">
 </script>
 </html>
