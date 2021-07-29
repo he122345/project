@@ -14,6 +14,6 @@
         delete from subsidymonth where id=#{id}
     </delete>
     <update id="update" parameterType="com.SALARY.domain.Subsidy">
-        update subsidymonth set month=#{month},overtime_type=#{overtime_type},overtime_days=#{overtime_days},subsidymonth=#{subsidy} where id = #{id}
+        update subsidymonth set month=#{month},overtime_type=#{overtime_type},overtime_days=#{overtime_days},subsidy=#{subsidy} where id = #{id}
     </update>
 </mapper>

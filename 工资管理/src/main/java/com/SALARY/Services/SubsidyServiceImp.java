@@ -1,7 +1,6 @@
 package com.SALARY.Services;
 
 import com.SALARY.Dao.SubsidyDao;
-import com.SALARY.domain.Salary;
 import com.SALARY.domain.Subsidy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +18,7 @@ public class SubsidyServiceImp implements SubsidyService{
 
     @Override
     public int update(Subsidy subsidy) {
+
         return _subsidy.update(subsidy);
     }
 

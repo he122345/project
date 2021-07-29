@@ -2,6 +2,8 @@ package com.SALARY.Controller;
 
 import com.SALARY.Services.ShowService;
 import com.SALARY.domain.Show;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ public class ShowController {
     @RequestMapping(value = "findById/{month}/{id}",method = {RequestMethod.GET})
     public List<Show> findById(@PathVariable int month,@PathVariable int id,int page,int limit) {
         List<Show> list=new ArrayList<Show>();
+        System.out.println(month+","+id+","+page+","+limit);
         if(_show.findById(month,id,page,limit)!=null){
             list.add(_show.findById(month,id,page,limit));
         }

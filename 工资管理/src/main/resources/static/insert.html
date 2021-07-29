@@ -149,42 +149,42 @@
        data: {"id":data.field.id,"name":data.field.name,"photo":data.field.photo,"age":data.field.age,"phone":data.field.phone},
        dataType: "json",
        success: function(msg){
-           $.ajax({
-             type: "get",
-             url: "http://localhost:8089/attendance/insert",
-             data: {"id":data.field.id,"month":data.field.month,"days":data.field.days},
-             dataType: "json",
-             success: function(msg){
+         $.ajax({
+           type: "get",
+           url: "http://localhost:8089/attendance/insert",
+           data: {"id":data.field.id,"month":data.field.month,"days":data.field.days},
+           dataType: "json",
+           success: function(msg){
+             $.ajax({
+               type: "get",
+               url: "http://localhost:8089/subsidy/insert",
+               data: {"id":data.field.id,"month":data.field.month,"overtime_type":data.field.overtime_type,"overtime_days":data.field.overtime_days,"subsidy":subsidy},
+               dataType: "json",
+               success: function(msg){
                  $.ajax({
                    type: "get",
-                   url: "http://localhost:8089/subsidy/insert",
-                   data: {"id":data.field.id,"month":data.field.month,"overtime_type":data.field.overtime_type,"overtime_days":data.field.overtime_days,"subsidy":subsidy},
+                   url: "http://localhost:8089/type/insert",
+                   data: {"id":data.field.id,"kind":data.field.kind,"level":data.field.level,"department":data.field.department,"basic_salary":data.field.basic_salary},
                    dataType: "json",
                    success: function(msg){
-                       $.ajax({
-                         type: "get",
-                         url: "http://localhost:8089/type/insert",
-                         data: {"id":data.field.id,"kind":data.field.kind,"level":data.field.level,"department":data.field.department,"basic_salary":data.field.basic_salary},
-                         dataType: "json",
-                         success: function(msg){
-                           $.ajax({
-                             type: "get",
-                             url: "http://localhost:8089/salary/insert",
-                             data: {"id":data.field.id,"month":data.field.month,"salary":salary},
-                             dataType: "json",
-                             success: function(msg){
-                               var index = parent.layer.getFrameIndex(window.name);
-                               parent.layer.msg('成功');
-                               parent.location.reload();
-                               parent.layer.close(index);
-                             }
-                           });
-                         }
-                       });
+                     $.ajax({
+                       type: "get",
+                       url: "http://localhost:8089/salary/insert",
+                       data: {"id":data.field.id,"month":data.field.month,"salary":salary},
+                       dataType: "json",
+                       success: function(msg){
+                         var index = parent.layer.getFrameIndex(window.name);
+                         parent.layer.msg('成功');
+                         parent.location.reload();
+                         parent.layer.close(index);
+                       }
+                     });
                    }
                  });
-             }
-           });
+               }
+             });
+           }
+         });
        }
      });
      return false;

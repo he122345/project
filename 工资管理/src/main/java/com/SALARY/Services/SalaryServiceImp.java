@@ -22,7 +22,6 @@ public class SalaryServiceImp implements SalaryService{
     private AttendanceDao _attendance;
     @Override
     public int insert(Salary salary) {
-
         return _salary.insert(salary);
     }
 

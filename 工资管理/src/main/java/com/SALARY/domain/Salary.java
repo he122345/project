@@ -61,4 +61,17 @@ public class Salary {
                 ", salary=" + salary +
                 '}';
     }
+
+    @Override
+    public Object clone() {
+        Salary sa = null;
+        try{
+            sa = (Salary) super.clone();
+        }catch(CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return sa;
+    }
+
+
 }

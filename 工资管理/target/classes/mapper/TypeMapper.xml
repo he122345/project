@@ -14,6 +14,6 @@
         delete from type where id=#{id}
     </delete>
     <update id="update" parameterType="com.SALARY.domain.Type">
-        update type set kind=#{type},level=#{level},department=#{department},basic_salary=#{basic_salary} where id = #{id}
+        update type set kind=#{kind},level=#{level},department=#{department},basic_salary=#{basic_salary} where id = #{id}
     </update>
 </mapper>
