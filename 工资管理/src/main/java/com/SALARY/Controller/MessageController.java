@@ -16,7 +16,6 @@ public class MessageController {
     private MessageServicce _message;
     @RequestMapping(value = "insert",method = {RequestMethod.POST})
     public int insert(Message message) {
-        System.out.println(message);
         return _message.insert(message);
     }
     @RequestMapping(value = "del/{id}",method = {RequestMethod.GET})
@@ -33,7 +32,6 @@ public class MessageController {
         list.add(_message.findById(id));
         return list;
     }
-
     @RequestMapping(value = "findAll",method = {RequestMethod.GET})
     public List<Message> findAll() {
         return _message.findAll();

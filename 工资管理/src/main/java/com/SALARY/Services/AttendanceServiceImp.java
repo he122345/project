@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class AttendanceServiceImp implements AttendanceService {
@@ -13,6 +14,17 @@ public class AttendanceServiceImp implements AttendanceService {
     private AttendanceDao _attendance;
     @Override
     public int insert(Attendance attendance) {
+        //attendance应为0-31,未根据月份区分天数
+        if(attendance.getDays()<0||attendance.getDays()>31){
+            System.out.println(1);
+            return -1;
+        };
+        //month应为1-12
+        if(attendance.getMonth()<=0||attendance.getMonth()>12){
+            System.out.println(1);
+            return -1;
+        };
+        System.out.println(2);
         return _attendance.insert(attendance);
     }
 
@@ -23,6 +35,10 @@ public class AttendanceServiceImp implements AttendanceService {
 
     @Override
     public int update(Attendance attendance) {
+        //attendance应为0-31,未根据月份区分天数
+        if(attendance.getDays()<0||attendance.getDays()>31){return -1;};
+        //month应为1-12
+        if(attendance.getMonth()<=0||attendance.getDays()>12){return -1;};
         return _attendance.update(attendance);
     }
 

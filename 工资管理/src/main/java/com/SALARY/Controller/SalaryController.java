@@ -16,7 +16,6 @@ public class SalaryController {
     private SalaryService _salary;
     @RequestMapping(value = "insert",method = {RequestMethod.GET})
     public int insert(Salary salary) {
-        System.out.println(salary);
         return _salary.insert(salary);
     }
     @RequestMapping(value = "update",method = {RequestMethod.GET})
