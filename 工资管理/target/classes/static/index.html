@@ -76,18 +76,18 @@
           {field:'id', width:100, title: '编号', sort: true}
           ,{field:'name', width:100, title: '姓名',sort: true,edit:'text'}
           ,{field:'photo', width:130, title: '照片',templet: '#titleTpl'}
-          ,{field:'age', width:100, title: '年龄',sort: true}
-          ,{field:'phone', width:120, title: '电话'}
+          ,{field:'age', width:100, title: '年龄',sort: true,edit:'text',edit:'text'}
+          ,{field:'phone', width:120, title: '电话',edit:'text'}
           ,{field:'month', width:100, title: '月份',sort:true}
           ,{field:'salary', width:100, title: '月工资',sort: true}
-          ,{field:'days', width:100, title: '出勤天数',sort: true}
+          ,{field:'days', width:100, title: '出勤天数',sort: true,edit:'text'}
           ,{field:'overtime_type', width:100, title: '加班类型',templet: '#titleTplType'}
-          ,{field:'overtime_days', width:120, title: '加班天数',sort: true}
+          ,{field:'overtime_days', width:120, title: '加班天数',sort: true,edit:'text'}
           ,{field:'subsidy', width:100, title: '津贴',sort: true}
           ,{field:'kind', width:100, title: '工种',sort: true,templet: '#titleTplKind'}
           ,{field:'level', width:100, title: '等级',sort: true,templet: '#titleTplLevel'}
           ,{field:'department', width:100, title: '部门',sort: true,templet: '#titleTplDepartment'}
-          ,{field:'basic_salary', width:120, title: '基本工资',sort: true}
+          ,{field:'basic_salary', width:120, title: '基本工资',sort: true,edit:'text'}
           ,{fixed: 'right',title:'工具栏', height:100,width:150, align:'center', toolbar: '#barDemo'}
         ]]
       });
@@ -96,10 +96,12 @@
         var data = obj.data;//得到行数据
         var layEvent = obj.event;//得到点击事件
         var tr = obj.tr;//得到行对象
+
         if(layEvent === 'update'){
           $.ajax({
             url:"http://localhost:8089/show/findById/"+data.month+"/"+data.id+"?page=1&limit=5",
             success:function(res){
+              console.log(data.phone);
               if($("#selectKind"+data.id).val()!=res[0].kind||$("#selectLevel"+data.id).val()!=res[0].level||$("#selectDepartment"+data.id).val()!=res[0].department){
                 data.kind=$("#selectKind"+data.id).val();
                 data.level=$("#selectLevel"+data.id).val();
@@ -111,13 +113,13 @@
                   dataType: "json",
                   success:function(res){
                     if(res==1) {
-                      layer.msg('修改成功');
+                      layer.msg('修改成功1');
                     }
                     else layer.msg('修改失败');
                   }
                 });
               }
-              if($('#selectType'+data.id).val()!=res[0].overtime_type){
+              if($('#selectType'+data.id).val()!=res[0].overtime_type||data.overtime_days!=res[0].overtime_days||data.days!=res[0].days||data.basic_salary!=res[0].basic_salary){
                 data.overtime_type=$("#selectType"+data.id).val();
                 if(data.overtime_type=="晚班") {var subsidy=data.overtime_days*200;}
                 else if(data.overtime_type=="白班") {var subsidy=data.overtime_days*150;}
@@ -139,27 +141,45 @@
                         data: {"id":data.id,"month":data.month,"salary":salary},
                         dataType: "json",
                         success: function(msg){
-                          if(msg==1) layer.msg('修改成功');
-                          else  layer.msg('修改失败');
+                          if(msg==1) {
+                            $.ajax({
+                              type: "get",
+                              url: "http://localhost:8089/attendance/update",
+                              data: {"id":data.id,"month":data.month,"days":data.days},
+                              dataType: "json",
+                              success: function(msg){
+                                if(msg==1) {
+                                  layer.msg('修改成功2');
+                                }
+                                else layer.msg('修改失败');
+                              }
+                            });
+                          }
+                          else layer.msg('修改失败');
                         }
                       });
                     }
                   }
                 });
               }
-              console.log(data.name);
-              if($(data.name!=res[0].name)){
+              if(data.name!=res[0].name||data.age!=res[0].age||data.phone!=res[0].phone){
                 $.ajax({
                   type: "post",
                   url: "http://localhost:8089/message/update",
                   data: {"id":data.id,"name":data.name,"photo":data.photo,"age":data.age,"phone":data.phone},
                   dataType: "json",
                   success: function(msg){
-                    if(msg==1) layer.msg('修改成功');
+                    if(msg==1) layer.msg('修改成功3');
                     else  layer.msg('修改失败');
                   }
                 });
               }
+              var flag=1;
+              for(var key in data){
+                if(data[key]!=res[0][key]) flag=0;
+                console.log(flag);
+              };
+              if(flag==1) layer.msg('未更改数据');
             },
           });
         }
@@ -215,9 +235,6 @@
         var value = obj.value //得到修改后的值
         ,data = obj.data //得到所在行所有键值
         ,field = obj.field; //得到字段
-        layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改值为：'+ util.escape(value));
-        console.log(data);
-        $('#use').val(value);
         $("#update"+data.id).click();
       });
     });
