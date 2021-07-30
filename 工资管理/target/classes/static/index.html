@@ -31,21 +31,25 @@
       </ul>
     </div>
     <div class="layui-body" style="margin-left:-200px">
+      <img src="" alt="" id="use" style="width:100px;height:100px" >
       <table class="layui-hide" id="test" lay-filter="test"></table>
     </div>
     <div class="layui-footer" style="margin-left:-200px">底部固定区域</div>
   </div>
   <input type="hidden" id="Count">
-  <input type="hidden" id="use">
+
+  <button id="upload"></button>
 </body>
 <script>
 
   var tableInit = function(url){//url代表的是渲染表格的请求路径
-    layui.use(['table','form'], function(){
+    layui.use(['table','form','util','upload'], function(){
       var $ = layui.$;
       var table = layui.table;
       var form=layui.form;
       var util = layui.util;
+      var upload = layui.upload;
+      $("#use").hide();
       $.ajax({
         url:"http://localhost:8089/show/count",
         success:function(res){
@@ -75,7 +79,7 @@
         ,cols: [[
           {field:'id', width:100, title: '编号', sort: true}
           ,{field:'name', width:100, title: '姓名',sort: true,edit:'text'}
-          ,{field:'photo', width:130, title: '照片',templet: '#titleTpl'}
+          ,{field:'photo', width:130, title: '照片',templet: '#titleTpl',event:'setPhoto'}
           ,{field:'age', width:100, title: '年龄',sort: true,edit:'text',edit:'text'}
           ,{field:'phone', width:120, title: '电话',edit:'text'}
           ,{field:'month', width:100, title: '月份',sort:true}
@@ -91,6 +95,7 @@
           ,{fixed: 'right',title:'工具栏', height:100,width:150, align:'center', toolbar: '#barDemo'}
         ]]
       });
+
       //工具栏监听
       table.on('tool(test)', function(obj){
         var data = obj.data;//得到行数据
@@ -162,13 +167,14 @@
                   }
                 });
               }
-              if(data.name!=res[0].name||data.age!=res[0].age||data.phone!=res[0].phone){
+              if(data.name!=res[0].name||data.age!=res[0].age||data.phone!=res[0].phone||$('#use').attr('src')!=res[0].photo){
                 $.ajax({
                   type: "post",
                   url: "http://localhost:8089/message/update",
-                  data: {"id":data.id,"name":data.name,"photo":data.photo,"age":data.age,"phone":data.phone},
+                  data: {"id":data.id,"name":data.name,"photo":$('#use').attr('src'),"age":data.age,"phone":data.phone},
                   dataType: "json",
                   success: function(msg){
+                    $('#use').hide();
                     if(msg==1) layer.msg('修改成功3');
                     else  layer.msg('修改失败');
                   }
@@ -176,7 +182,7 @@
               }
               var flag=1;
               for(var key in data){
-                if(data[key]!=res[0][key]) flag=0;
+                if(data[key]!=res[0][key]&&key!="photo") flag=0;
                 console.log(flag);
               };
               if(flag==1) layer.msg('未更改数据');
@@ -229,21 +235,20 @@
             });
           });
         }
-      });
-      //监听单元格编辑
-      table.on('edit(test)', function(obj){
-        var value = obj.value //得到修改后的值
-        ,data = obj.data //得到所在行所有键值
-        ,field = obj.field; //得到字段
-        $("#update"+data.id).click();
+        else if(obj.event === 'setPhoto'){
+          $("#upload").click();
+          console.log(1);
+        }
       });
     });
   }
   tableInit("http://www.localhost:8089/show/findAll/"+0);
-  layui.use('layer', function(){
+  layui.use(['layer','upload'], function(){
     var $ = layui.$
-    ,layer = layui.layer;
+    ,layer = layui.layer
+    ,upload=layui.upload;
     //查询
+
     $("#find").on('click',function(){
       var id = $("#findId").val();
       var month=$("#findMonth").val();
@@ -260,6 +265,21 @@
         content:'http://localhost:8089/insert.html',
       });
     })
+    upload.render({
+          elem: '#upload'
+          ,url: '#'
+          ,size:1536
+          ,auto: false
+          ,bindAction: ''
+          ,choose: function(obj){
+            layer.msg('图片选择成功');
+            var files = obj.pushFile();
+            obj.preview(function(index, file, result){
+              $('#use').show();
+              $('#use').attr('src',result);
+            });
+          }
+        });
   });
 </script>
 <script type="text/html" id="barDemo">
@@ -271,7 +291,7 @@
   </div>
 </script>
 <script type="text/html" id="titleTpl">
-  <img src="{{d.photo}}" id="photo{{d.id}}">
+  <img src="{{d.photo}}" id="photo{{d.id}}" style="width:100px;height:100px">
 </script>
 <script type="text/html" id="titleTplKind">
   <select name="kind" id="selectKind{{d.id}}" style="width:200px;">
