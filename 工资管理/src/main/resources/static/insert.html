@@ -118,6 +118,7 @@
    var layer=layui.layer;
    var upload=layui.upload;
    window.jquery = window.$ = layui.jquery;
+   //上传监听
    upload.render({
      elem: '#choose'
      ,url: '#'
@@ -128,62 +129,73 @@
        layer.msg('图片选择成功');
        var files = obj.pushFile();
        obj.preview(function(index, file, result){
+         //借助输入框暂存图片数据
          $('#in').val(result);
          $('#photo').attr("src",result);
        });
      }
    });
+   //表单数据监听
    form.on('submit(formDemo)', function(data){
+     //对输入数据做初步处理
      if(data.field.age=='') data.field.age=0;
      if(data.field.month=='') data.field.month=9;
      if(data.field.days=='') data.field.days=0;
      if(data.field.overtime_days=='') data.field.overtime_days=0;
      if(data.field.basic_salary=='') data.field.basic_salary=0;
+     //根据加班类型计算津贴
+     //白班津贴=天数*150
+     //夜班津贴=天数*200
      if(data.field.overtime_type=="晚班") {var subsidy=data.field.overtime_days*200;}
      else if(data.field.overtime_type=="白班") {var subsidy=data.field.overtime_days*150;}
      else {var subsidy=0;}
+     //工资=津贴+基本工资+(工作天数-20)*100
      var salary=Number(data.field.basic_salary)+Number(subsidy)+Number((data.field.days-20)*100);
+     //格式验证，没有采用正则表达，与后台Service层搭配验证数据
      if(data.field.id.length>5||data.field.age.length>3||data.field.name.length>8||data.field.phone.length>11||data.field.month.length>2||data.field.days.length>2||data.field.basic_salary.length>5){
        layer.msg('数据格式有误');
      }
+     //如果数据格式没有问题，依次插入数据库
      else{
        $.ajax({
          type: "post",
-         url: "http://localhost:8089/message/insert",
+         url: "http://192.168.137.1:8089/message/insert",
          data: {"id":data.field.id,"name":data.field.name,"photo":data.field.photo,"age":data.field.age,"phone":data.field.phone},
          dataType: "json",
          success: function(msg1){
            if(msg1==1){
              $.ajax({
                type: "get",
-               url: "http://localhost:8089/attendance/insert",
+               url: "http://192.168.137.1:8089/attendance/insert",
                data: {"id":data.field.id,"month":data.field.month,"days":data.field.days},
                dataType: "json",
                success: function(msg2){
+                 //0<=加班天数加上出勤天数<=31
                  if(msg2==1&&Number(data.field.days)+Number(data.field.overtime_days)<=31&&Number(data.field.days)+Number(data.field.overtime_days)>=0){
                    console.log(msg2);
                    $.ajax({
                      type: "get",
-                     url: "http://localhost:8089/subsidy/insert",
+                     url: "http://192.168.137.1:8089/subsidy/insert",
                      data: {"id":data.field.id,"month":data.field.month,"overtime_type":data.field.overtime_type,"overtime_days":data.field.overtime_days,"subsidy":subsidy},
                      dataType: "json",
                      success: function(msg3){
                        if(msg3==1){
                          $.ajax({
                            type: "get",
-                           url: "http://localhost:8089/type/insert",
+                           url: "http://192.168.137.1:8089/type/insert",
                            data: {"id":data.field.id,"kind":data.field.kind,"level":data.field.level,"department":data.field.department,"basic_salary":data.field.basic_salary},
                            dataType: "json",
                            success: function(msg4){
                              if(msg4==1){
                                $.ajax({
                                  type: "get",
-                                 url: "http://localhost:8089/salary/insert",
+                                 url: "http://192.168.137.1:8089/salary/insert",
                                  data: {"id":data.field.id,"month":data.field.month,"salary":salary},
                                  dataType: "json",
                                  success: function(msg){
                                    var index = parent.layer.getFrameIndex(window.name);
                                    parent.layer.msg('成功');
+                                   //刷新界面并关闭layer层
                                    parent.location.reload();
                                    parent.layer.close(index);
                                  }
@@ -192,15 +204,15 @@
                              if(msg4==-1){
                                layer.msg("基本工资有误");
                                $.ajax({
-                                 url:"http://localhost:8089/attendance/del/"+data.field.id,
+                                 url:"http://192.168.137.1:8089/attendance/del/"+data.field.id,
                                  success: function(vol1){
                                    if(vol1==1){
                                      $.ajax({
-                                       url:"http://localhost:8089/subsidy/del/"+data.field.id,
+                                       url:"http://192.168.137.1:8089/subsidy/del/"+data.field.id,
                                        success: function(vol2){
                                          if(vol2==1){
                                            $.ajax({
-                                              url:"http://localhost:8089/message/del/"+data.field.id,
+                                              url:"http://192.168.137.1:8089/message/del/"+data.field.id,
                                            });
                                          }
                                        }
@@ -212,14 +224,15 @@
                            }
                          });
                        }
+                       //如果插入数据有误，则删除已插入部分数据
                        if(msg3==-1){
                          layer.msg("加班天数有误1");
                          $.ajax({
-                           url:"http://localhost:8089/attendance/del/"+data.field.id,
+                           url:"http://192.168.137.1:8089/attendance/del/"+data.field.id,
                            success: function(vol){
                              if(vol==1){
                                $.ajax({
-                                  url:"http://localhost:8089/message/del/"+data.field.id,
+                                  url:"http://192.168.137.1:8089/message/del/"+data.field.id,
                                });
                              }
                            }
@@ -228,14 +241,15 @@
                      }
                    });
                  }
+                 //如果出勤天数+加班天数不合法
                  if(Number(data.field.days)+Number(data.field.overtime_days)>31||Number(data.field.days)+Number(data.field.overtime_days)<0){
                    layer.msg("加班天数与出勤天数有误2");
                    $.ajax({
-                     url:"http://localhost:8089/attendance/del/"+data.field.id,
+                     url:"http://192.168.137.1:8089/attendance/del/"+data.field.id,
                      success: function(vol){
                        if(vol==1){
                          $.ajax({
-                            url:"http://localhost:8089/message/del/"+data.field.id,
+                            url:"http://192.168.137.1:8089/message/del/"+data.field.id,
                          });
                        }
                      }
@@ -244,7 +258,7 @@
                  if(msg2==-1){
                     layer.msg("月份或者出勤天数数据有误");
                     $.ajax({
-                      url:"http://localhost:8089/message/del/"+data.field.id,
+                      url:"http://192.168.137.1:8089/message/del/"+data.field.id,
                     });
                  }
                }
