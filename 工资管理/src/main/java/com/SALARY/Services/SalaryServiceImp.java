@@ -22,6 +22,10 @@ public class SalaryServiceImp implements SalaryService{
     private AttendanceDao _attendance;
     @Override
     public int insert(Salary salary) {
+        //工资不为负数
+        if (salary.getSalary()<0){
+            salary.setSalary(0);
+        }
         return _salary.insert(salary);
     }
 
@@ -32,6 +36,10 @@ public class SalaryServiceImp implements SalaryService{
 
     @Override
     public int update(Salary salary) {
+        //工资不为负数
+        if (salary.getSalary()<0){
+            salary.setSalary(0);
+        }
         return _salary.update(salary);
     }
 

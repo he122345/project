@@ -13,6 +13,10 @@ public class TypeServiceImp implements TypeService{
     private TypeDao _type;
     @Override
     public int insert(Type type) {
+        //基本工资限定
+        if(type.getBasic_salary()>100000||type.getBasic_salary()<0){
+            return -1;
+        }
         return _type.insert(type);
     }
     @Override

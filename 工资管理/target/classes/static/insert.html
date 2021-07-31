@@ -11,7 +11,7 @@
   <div class="layui-form-item">
     <label class="layui-form-label">编号</label>
     <div class="layui-input-inline">
-      <input type="text" name="id" required  lay-verify="required" placeholder="请输入编号" autocomplete="off" class="layui-input">
+      <input type="number" name="id" required  lay-verify="required" placeholder="请输入编号" autocomplete="off" class="layui-input">
     </div>
   </div>
   <div class="layui-form-item">
@@ -31,25 +31,25 @@
   <div class="layui-form-item">
     <label class="layui-form-label">年龄</label>
     <div class="layui-input-inline">
-      <input type="text" name="age" placeholder="请输入年龄" autocomplete="off" class="layui-input">
+      <input type="number" name="age" placeholder="请输入年龄" autocomplete="off" class="layui-input">
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">电话</label>
     <div class="layui-input-inline">
-      <input type="text" name="phone" placeholder="请输入电话" autocomplete="off" class="layui-input">
+      <input type="number" name="phone" placeholder="请输入电话" autocomplete="off" class="layui-input">
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">月份</label>
     <div class="layui-input-inline">
-      <input type="text" name="month" placeholder="请输入月份" autocomplete="off" class="layui-input">
+      <input type="number" name="month" placeholder="请输入月份" autocomplete="off" class="layui-input">
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">出勤天数</label>
     <div class="layui-input-inline">
-      <input type="text" name="days" placeholder="请输入出勤天数" autocomplete="off" class="layui-input">
+      <input type="number" name="days" placeholder="请输入出勤天数" autocomplete="off" class="layui-input">
     </div>
   </div>
   <div class="layui-form-item">
@@ -65,7 +65,7 @@
   <div class="layui-form-item">
     <label class="layui-form-label">加班天数</label>
     <div class="layui-input-inline">
-      <input type="text" name="overtime_days" placeholder="请输入加班天数" autocomplete="off" class="layui-input">
+      <input type="number" name="overtime_days" placeholder="请输入加班天数" autocomplete="off" class="layui-input">
     </div>
   </div>
   <div class="layui-form-item">
@@ -102,7 +102,7 @@
   <div class="layui-form-item">
     <label class="layui-form-label">基本工资</label>
     <div class="layui-input-inline">
-      <input type="text" name="basic_salary" placeholder="请输入基本工资" autocomplete="off" class="layui-input">
+      <input type="number" name="basic_salary" placeholder="请输入基本工资" autocomplete="off" class="layui-input">
     </div>
   </div>
   <div class="layui-form-item">
@@ -143,77 +143,119 @@
      else if(data.field.overtime_type=="白班") {var subsidy=data.field.overtime_days*150;}
      else {var subsidy=0;}
      var salary=Number(data.field.basic_salary)+Number(subsidy)+Number((data.field.days-20)*100);
-     $.ajax({
-       type: "post",
-       url: "http://192.168.137.1:8089/message/insert",
-       data: {"id":data.field.id,"name":data.field.name,"photo":data.field.photo,"age":data.field.age,"phone":data.field.phone},
-       dataType: "json",
-       success: function(msg1){
-         if(msg1==1){
-           $.ajax({
-             type: "get",
-             url: "http://192.168.137.1:8089/attendance/insert",
-             data: {"id":data.field.id,"month":data.field.month,"days":data.field.days},
-             dataType: "json",
-             success: function(msg2){
-               if(msg2==1){
-                 console.log(msg2);
-                 $.ajax({
-                   type: "get",
-                   url: "http://192.168.137.1:8089/subsidy/insert",
-                   data: {"id":data.field.id,"month":data.field.month,"overtime_type":data.field.overtime_type,"overtime_days":data.field.overtime_days,"subsidy":subsidy},
-                   dataType: "json",
-                   success: function(msg3){
-                     if(msg3==1){
-                       $.ajax({
-                         type: "get",
-                         url: "http://192.168.137.1:8089/type/insert",
-                         data: {"id":data.field.id,"kind":data.field.kind,"level":data.field.level,"department":data.field.department,"basic_salary":data.field.basic_salary},
-                         dataType: "json",
-                         success: function(msg){
-                           $.ajax({
-                             type: "get",
-                             url: "http://192.168.137.1:8089/salary/insert",
-                             data: {"id":data.field.id,"month":data.field.month,"salary":salary},
-                             dataType: "json",
-                             success: function(msg){
-                               var index = parent.layer.getFrameIndex(window.name);
-                               parent.layer.msg('成功');
-                               parent.location.reload();
-                               parent.layer.close(index);
+     if(data.field.id.length>5||data.field.age.length>3||data.field.name.length>8||data.field.phone.length>11||data.field.month.length>2||data.field.days.length>2||data.field.basic_salary.length>5){
+       layer.msg('数据格式有误');
+     }
+     else{
+       $.ajax({
+         type: "post",
+         url: "http://localhost:8089/message/insert",
+         data: {"id":data.field.id,"name":data.field.name,"photo":data.field.photo,"age":data.field.age,"phone":data.field.phone},
+         dataType: "json",
+         success: function(msg1){
+           if(msg1==1){
+             $.ajax({
+               type: "get",
+               url: "http://localhost:8089/attendance/insert",
+               data: {"id":data.field.id,"month":data.field.month,"days":data.field.days},
+               dataType: "json",
+               success: function(msg2){
+                 if(msg2==1&&Number(data.field.days)+Number(data.field.overtime_days)<=31&&Number(data.field.days)+Number(data.field.overtime_days)>=0){
+                   console.log(msg2);
+                   $.ajax({
+                     type: "get",
+                     url: "http://localhost:8089/subsidy/insert",
+                     data: {"id":data.field.id,"month":data.field.month,"overtime_type":data.field.overtime_type,"overtime_days":data.field.overtime_days,"subsidy":subsidy},
+                     dataType: "json",
+                     success: function(msg3){
+                       if(msg3==1){
+                         $.ajax({
+                           type: "get",
+                           url: "http://localhost:8089/type/insert",
+                           data: {"id":data.field.id,"kind":data.field.kind,"level":data.field.level,"department":data.field.department,"basic_salary":data.field.basic_salary},
+                           dataType: "json",
+                           success: function(msg4){
+                             if(msg4==1){
+                               $.ajax({
+                                 type: "get",
+                                 url: "http://localhost:8089/salary/insert",
+                                 data: {"id":data.field.id,"month":data.field.month,"salary":salary},
+                                 dataType: "json",
+                                 success: function(msg){
+                                   var index = parent.layer.getFrameIndex(window.name);
+                                   parent.layer.msg('成功');
+                                   parent.location.reload();
+                                   parent.layer.close(index);
+                                 }
+                               });
                              }
-                           });
-                         }
-                       });
+                             if(msg4==-1){
+                               layer.msg("基本工资有误");
+                               $.ajax({
+                                 url:"http://localhost:8089/attendance/del/"+data.field.id,
+                                 success: function(vol1){
+                                   if(vol1==1){
+                                     $.ajax({
+                                       url:"http://localhost:8089/subsidy/del/"+data.field.id,
+                                       success: function(vol2){
+                                         if(vol2==1){
+                                           $.ajax({
+                                              url:"http://localhost:8089/message/del/"+data.field.id,
+                                           });
+                                         }
+                                       }
+                                     });
+                                   }
+                                 }
+                               });
+                             }
+                           }
+                         });
+                       }
+                       if(msg3==-1){
+                         layer.msg("加班天数有误1");
+                         $.ajax({
+                           url:"http://localhost:8089/attendance/del/"+data.field.id,
+                           success: function(vol){
+                             if(vol==1){
+                               $.ajax({
+                                  url:"http://localhost:8089/message/del/"+data.field.id,
+                               });
+                             }
+                           }
+                         });
+                       }
                      }
-                     if(msg3==-1||data.field.days+data.field.overtime_days>31){
-                       layer.msg("加班天数有误");
-                       $.ajax({
-                         url:"http://192.168.137.1:8089/attendance/del/"+data.field.id,
-                         success: function(msg){
-                           $.ajax({
-                              url:"http://192.168.137.1:8089/message/del/"+data.field.id,
-                           });
-                         }
-                       });
+                   });
+                 }
+                 if(Number(data.field.days)+Number(data.field.overtime_days)>31||Number(data.field.days)+Number(data.field.overtime_days)<0){
+                   layer.msg("加班天数与出勤天数有误2");
+                   $.ajax({
+                     url:"http://localhost:8089/attendance/del/"+data.field.id,
+                     success: function(vol){
+                       if(vol==1){
+                         $.ajax({
+                            url:"http://localhost:8089/message/del/"+data.field.id,
+                         });
+                       }
                      }
-                   }
-                 });
+                   });
+                 }
+                 if(msg2==-1){
+                    layer.msg("月份或者出勤天数数据有误");
+                    $.ajax({
+                      url:"http://localhost:8089/message/del/"+data.field.id,
+                    });
+                 }
                }
-               if(msg2==-1){
-                  layer.msg("月份或者出勤天数数据有误");
-                  $.ajax({
-                    url:"http://192.168.137.1:8089/message/del/"+data.field.id,
-                  });
-               }
-             }
-           });
+             });
+           }
+           if(msg1==-1||msg1==0){
+             layer.msg("姓名或者年龄或者电话数据有误或者编号不合法");
+           }
          }
-         if(msg1==-1){
-           layer.msg("姓名或者年龄或者电话数据有误");
-         }
-       }
-     });
+       });
+     }
      return false;
    });
  })
