@@ -38,7 +38,7 @@ public class AttendanceServiceImp implements AttendanceService {
         //attendance应为0-31,未根据月份区分天数
         if(attendance.getDays()<0||attendance.getDays()>31){return -1;};
         //month应为1-12
-        if(attendance.getMonth()<=0||attendance.getDays()>12){return -1;};
+        if(attendance.getMonth()<=0||attendance.getMonth()>12){return -1;};
         return _attendance.update(attendance);
     }
 

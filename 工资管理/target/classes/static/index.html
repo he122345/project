@@ -102,11 +102,53 @@
         var layEvent = obj.event;//得到点击事件
         var tr = obj.tr;//得到行对象
         if(layEvent === 'update'){
+          //验证更新的数据
+          //验证name格式
+          var regName =/^[\u4E00-\u9FFF]{0,3}$/g;
+          if(!regName.test(data.name)){
+            layer.msg("名字应在3个汉字以内");
+            return false;
+          }
+          //验证年龄
+          var regAge =/^\d{0,2}$/g;
+          if(!regAge.test(data.age)){
+            layer.msg("年龄应在0-99之间");
+            return false;
+          }
+          //验证电话号码
+          var regPhone =/^\d{11}$/g;
+          if(!regPhone.test(data.phone)){
+            layer.msg("请输入11位电话号码");
+            return false;
+          }
+          //验证加班天数和出勤天数
+          var regDay =/^\d{0,2}$/g;
+          if(!regDay.test(data.days)){
+            layer.msg("出勤天数有误");
+            return false;
+          }
+          //更新匹配索引，每次从第一个字符串开始匹配
+          regDay.lastIndex=0;
+          if(!regDay.test(data.overtime_days)){
+            layer.msg("加班天数有误");
+            return false;
+          }
+          if(Number(data.overtime_days)+Number(data.days)>31){
+            layer.msg("加班天数与出勤天数的和不能超过31");
+            return false;
+          }
+          //验证基本工资
+          var regBasic =/^\d{0,5}$/g;
+          if(!regBasic.test(data.basic_salary)){
+            layer.msg("基本工资应该在0-99999之间");
+            return false;
+          }
+          //如果预览框为空，则预览现有的图片
+          if($('#use').attr('src')=="") $('#use').attr('src',data.photo);
           $.ajax({
             url:"http://localhost:8089/show/findById/"+data.month+"/"+data.id+"?page=1&limit=5",
             success:function(res){
-              console.log(data.phone);
-              if($("#selectKind"+data.id).val()!=res[0].kind||$("#selectLevel"+data.id).val()!=res[0].level||$("#selectDepartment"+data.id).val()!=res[0].department){
+              if($("#selectKind"+data.id).val()!=res[0].kind||$("#selectLevel"+data.id).val()!=res[0].level||$("#selectDepartment"+data.id).val()!=res[0].department||data.basic_salary!=res[0].basic_salary){
                 data.kind=$("#selectKind"+data.id).val();
                 data.level=$("#selectLevel"+data.id).val();
                 data.department=$("#selectDepartment"+data.id).val();
@@ -120,7 +162,7 @@
                       layer.msg('修改成功1');
                       location.reload();
                     }
-                    else layer.msg('修改失败');
+                    else layer.msg('修改失败1');
                   }
                 });
               }
@@ -138,30 +180,30 @@
                   data: {"id":data.id,"month":data.month,"overtime_type":data.overtime_type,"overtime_days":data.overtime_days,"subsidy":subsidy},
                   dataType: "json",
                   success:function(res){
-                    if(res==1) {
+                    if(res==1){
                       var salary=Number(data.basic_salary)+Number(subsidy)+Number((data.days-20)*100);
                       $.ajax({
                         type: "get",
                         url: "http://localhost:8089/salary/update",
                         data: {"id":data.id,"month":data.month,"salary":salary},
                         dataType: "json",
-                        success: function(msg){
-                          if(msg==1) {
+                        success: function(msg1){
+                          if(msg1==1){
                             $.ajax({
                               type: "get",
                               url: "http://localhost:8089/attendance/update",
                               data: {"id":data.id,"month":data.month,"days":data.days},
                               dataType: "json",
-                              success: function(msg){
-                                if(msg==1) {
+                              success: function(msg2){
+                                if(msg2==1){
                                   layer.msg('修改成功2');
                                   location.reload();
                                 }
-                                else layer.msg('修改失败');
+                                else layer.msg('修改失败2');
                               }
                             });
                           }
-                          else layer.msg('修改失败');
+                          else layer.msg('修改失败3');
                         }
                       });
                     }
@@ -180,13 +222,13 @@
                       layer.msg('修改成功3');
                       location.reload();
                     }
-                    else  layer.msg('修改失败');
+                    else  layer.msg('修改失败4');
                   }
                 });
               }
               var flag=1;
               for(var key in data){
-                if(data[key]!=res[0][key]&&key!="photo") flag=0;
+                if(data[key]!=res[0][key]||$('#use').attr('src')!=res[0].photo) flag=0;
               };
               if(flag==1) layer.msg('未更改数据');
             },
@@ -254,7 +296,6 @@
     ,layer = layui.layer
     ,upload=layui.upload;
     //查询
-
     $("#find").on('click',function(){
       var id = $("#findId").val();
       var month=$("#findMonth").val();
@@ -272,20 +313,20 @@
       });
     })
     upload.render({
-          elem: '#upload'
-          ,url: '#'
-          ,size:1536
-          ,auto: false
-          ,bindAction: ''
-          ,choose: function(obj){
-            layer.msg('图片选择成功');
-            var files = obj.pushFile();
-            obj.preview(function(index, file, result){
-              $('#use').show();
-              $('#use').attr('src',result);
-            });
-          }
+      elem: '#upload'
+      ,url: '#'
+      ,size:1536
+      ,auto: false
+      ,bindAction: ''
+      ,choose: function(obj){
+        layer.msg('图片选择成功');
+        var files = obj.pushFile();
+        obj.preview(function(index, file, result){
+          $('#use').show();
+          $('#use').attr('src',result);
         });
+      }
+    });
   });
 </script>
 <script type="text/html" id="barDemo">
