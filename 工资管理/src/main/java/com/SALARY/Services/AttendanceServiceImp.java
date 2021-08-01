@@ -16,12 +16,10 @@ public class AttendanceServiceImp implements AttendanceService {
     public int insert(Attendance attendance) {
         //attendance应为0-31,未根据月份区分天数
         if(attendance.getDays()<0||attendance.getDays()>31){
-            System.out.println(1);
             return -1;
         };
         //month应为1-12
         if(attendance.getMonth()<=0||attendance.getMonth()>12){
-            System.out.println(1);
             return -1;
         };
         System.out.println(2);

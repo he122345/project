@@ -159,14 +159,14 @@
      else{
        $.ajax({
          type: "post",
-         url: "http://192.168.137.1:8089/message/insert",
+         url: "http://localhost:8089/message/insert",
          data: {"id":data.field.id,"name":data.field.name,"photo":data.field.photo,"age":data.field.age,"phone":data.field.phone},
          dataType: "json",
          success: function(msg1){
            if(msg1==1){
              $.ajax({
                type: "get",
-               url: "http://192.168.137.1:8089/attendance/insert",
+               url: "http://localhost:8089/attendance/insert",
                data: {"id":data.field.id,"month":data.field.month,"days":data.field.days},
                dataType: "json",
                success: function(msg2){
@@ -175,21 +175,21 @@
                    console.log(msg2);
                    $.ajax({
                      type: "get",
-                     url: "http://192.168.137.1:8089/subsidy/insert",
+                     url: "http://localhost:8089/subsidy/insert",
                      data: {"id":data.field.id,"month":data.field.month,"overtime_type":data.field.overtime_type,"overtime_days":data.field.overtime_days,"subsidy":subsidy},
                      dataType: "json",
                      success: function(msg3){
                        if(msg3==1){
                          $.ajax({
                            type: "get",
-                           url: "http://192.168.137.1:8089/type/insert",
+                           url: "http://localhost:8089/type/insert",
                            data: {"id":data.field.id,"kind":data.field.kind,"level":data.field.level,"department":data.field.department,"basic_salary":data.field.basic_salary},
                            dataType: "json",
                            success: function(msg4){
                              if(msg4==1){
                                $.ajax({
                                  type: "get",
-                                 url: "http://192.168.137.1:8089/salary/insert",
+                                 url: "http://localhost:8089/salary/insert",
                                  data: {"id":data.field.id,"month":data.field.month,"salary":salary},
                                  dataType: "json",
                                  success: function(msg){
@@ -204,15 +204,15 @@
                              if(msg4==-1){
                                layer.msg("基本工资有误");
                                $.ajax({
-                                 url:"http://192.168.137.1:8089/attendance/del/"+data.field.id,
+                                 url:"http://localhost:8089/attendance/del/"+data.field.id,
                                  success: function(vol1){
                                    if(vol1==1){
                                      $.ajax({
-                                       url:"http://192.168.137.1:8089/subsidy/del/"+data.field.id,
+                                       url:"http://localhost:8089/subsidy/del/"+data.field.id,
                                        success: function(vol2){
                                          if(vol2==1){
                                            $.ajax({
-                                              url:"http://192.168.137.1:8089/message/del/"+data.field.id,
+                                              url:"http://localhost:8089/message/del/"+data.field.id,
                                            });
                                          }
                                        }
@@ -228,11 +228,11 @@
                        if(msg3==-1){
                          layer.msg("加班天数有误1");
                          $.ajax({
-                           url:"http://192.168.137.1:8089/attendance/del/"+data.field.id,
+                           url:"http://localhost:8089/attendance/del/"+data.field.id,
                            success: function(vol){
                              if(vol==1){
                                $.ajax({
-                                  url:"http://192.168.137.1:8089/message/del/"+data.field.id,
+                                  url:"http://localhost:8089/message/del/"+data.field.id,
                                });
                              }
                            }
@@ -245,11 +245,11 @@
                  if(Number(data.field.days)+Number(data.field.overtime_days)>31||Number(data.field.days)+Number(data.field.overtime_days)<0){
                    layer.msg("加班天数与出勤天数有误2");
                    $.ajax({
-                     url:"http://192.168.137.1:8089/attendance/del/"+data.field.id,
+                     url:"http://localhost:8089/attendance/del/"+data.field.id,
                      success: function(vol){
                        if(vol==1){
                          $.ajax({
-                            url:"http://192.168.137.1:8089/message/del/"+data.field.id,
+                            url:"http://localhost:8089/message/del/"+data.field.id,
                          });
                        }
                      }
@@ -258,7 +258,7 @@
                  if(msg2==-1){
                     layer.msg("月份或者出勤天数数据有误");
                     $.ajax({
-                      url:"http://192.168.137.1:8089/message/del/"+data.field.id,
+                      url:"http://localhost:8089/message/del/"+data.field.id,
                     });
                  }
                }

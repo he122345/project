@@ -1,6 +1,7 @@
 package com.SALARY.Controller;
 
 import com.SALARY.Services.SalaryService;
+import com.SALARY.common.Log;
 import com.SALARY.domain.Salary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +15,20 @@ import java.util.List;
 public class SalaryController {
     @Autowired
     private SalaryService _salary;
+
     @RequestMapping(value = "insert",method = {RequestMethod.GET})
+    @Log(type = 32,msg = "插入月工资")
     public int insert(Salary salary) {
         return _salary.insert(salary);
     }
     @RequestMapping(value = "update",method = {RequestMethod.GET})
+    @Log(type = 42,msg = "更新月工资")
     public int update(Salary salary) {
 
         return _salary.update(salary);
     }
     @RequestMapping(value = "del/{id}",method = {RequestMethod.GET})
+    @Log(type = 52,msg = "删除月工资")
     public int del(@PathVariable int id) {
         return _salary.del(id);
     }

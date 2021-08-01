@@ -15,13 +15,10 @@ public class SubsidyServiceImp implements SubsidyService{
     public int insert(Subsidy subsidy) {
         return _subsidy.insert(subsidy);
     }
-
     @Override
     public int update(Subsidy subsidy) {
-
         return _subsidy.update(subsidy);
     }
-
     @Override
     public int del(int id) {
         return _subsidy.del(id);

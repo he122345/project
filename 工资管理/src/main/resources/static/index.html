@@ -51,7 +51,7 @@
       var upload = layui.upload;
       $("#use").hide();
       $.ajax({
-        url:"http://192.168.137.1:8089/show/count",
+        url:"http://localhost:8089/show/count",
         success:function(res){
           $('#Count').val(res);
         }
@@ -147,7 +147,7 @@
           //如果预览框为空，则预览现有的图片
           if($('#use').attr('src')=="") $('#use').attr('src',data.photo);
           $.ajax({
-            url:"http://192.168.137.1:8089/show/findById/"+data.month+"/"+data.id+"?page=1&limit=5",
+            url:"http://localhost:8089/show/findById/"+data.month+"/"+data.id+"?page=1&limit=5",
             success:function(res){
               //如果工种信息发生改变
               if($("#selectKind"+data.id).val()!=res[0].kind||$("#selectLevel"+data.id).val()!=res[0].level||$("#selectDepartment"+data.id).val()!=res[0].department||data.basic_salary!=res[0].basic_salary){
@@ -156,7 +156,7 @@
                 data.department=$("#selectDepartment"+data.id).val();
                 $.ajax({
                   type: "get",
-                  url: "http://192.168.137.1:8089/type/update",
+                  url: "http://localhost:8089/type/update",
                   data: {"id":data.id,"kind":data.kind,"level":data.level,"department":data.department,"basic_salary":data.basic_salary},
                   dataType: "json",
                   success:function(res){
@@ -179,7 +179,7 @@
                 }
                 $.ajax({
                   type: "get",
-                  url: "http://192.168.137.1:8089/subsidy/update",
+                  url: "http://localhost:8089/subsidy/update",
                   data: {"id":data.id,"month":data.month,"overtime_type":data.overtime_type,"overtime_days":data.overtime_days,"subsidy":subsidy},
                   dataType: "json",
                   success:function(res){
@@ -187,14 +187,14 @@
                       var salary=Number(data.basic_salary)+Number(subsidy)+Number((data.days-20)*100);
                       $.ajax({
                         type: "get",
-                        url: "http://192.168.137.1:8089/salary/update",
+                        url: "http://localhost:8089/salary/update",
                         data: {"id":data.id,"month":data.month,"salary":salary},
                         dataType: "json",
                         success: function(msg1){
                           if(msg1==1){
                             $.ajax({
                               type: "get",
-                              url: "http://192.168.137.1:8089/attendance/update",
+                              url: "http://localhost:8089/attendance/update",
                               data: {"id":data.id,"month":data.month,"days":data.days},
                               dataType: "json",
                               success: function(msg2){
@@ -217,7 +217,7 @@
               if(data.name!=res[0].name||data.age!=res[0].age||data.phone!=res[0].phone||($('#use').attr('src')!=res[0].photo&&$('#use').attr('src')!="")){
                 $.ajax({
                   type: "post",
-                  url: "http://192.168.137.1:8089/message/update",
+                  url: "http://localhost:8089/message/update",
                   data: {"id":data.id,"name":data.name,"photo":$('#use').attr('src'),"age":data.age,"phone":data.phone},
                   dataType: "json",
                   success: function(msg){
@@ -246,23 +246,23 @@
             layer.close(index);
             var id= data.id;
             $.ajax({
-              url:"http://192.168.137.1:8089/attendance/del/"+id,
+              url:"http://localhost:8089/attendance/del/"+id,
               success:function(res){
                 if(res==1){
                   $.ajax({
-                    url:"http://192.168.137.1:8089/salary/del/"+id,
+                    url:"http://localhost:8089/salary/del/"+id,
                     success:function(res){
                       if(res==1){
                         $.ajax({
-                          url:"http://192.168.137.1:8089/subsidy/del/"+id,
+                          url:"http://localhost:8089/subsidy/del/"+id,
                           success:function(res){
                             if(res==1){
                               $.ajax({
-                                url:"http://192.168.137.1:8089/type/del/"+id,
+                                url:"http://localhost:8089/type/del/"+id,
                                 success:function(res){
                                   if(res==1){
                                     $.ajax({
-                                      url:"http://192.168.137.1:8089/message/del/"+id,
+                                      url:"http://localhost:8089/message/del/"+id,
                                       success:function(res){
                                         if(res==1) {
                                           layer.msg('删除成功');
@@ -297,7 +297,7 @@
     });
   }
   //查询所有数据
-  tableInit("http://192.168.137.1:8089/show/findAll/"+0);
+  tableInit("http://localhost:8089/show/findAll/"+0);
   layui.use(['layer','upload'], function(){
     var $ = layui.$
     ,layer = layui.layer
@@ -306,10 +306,10 @@
     $("#find").on('click',function(){
       var id = $("#findId").val();
       var month=$("#findMonth").val();
-      if(id==''&&month!='') tableInit("http://www.192.168.137.1:8089/show/findAll/"+month);
-      else if(month==''&&id!='') tableInit("http://192.168.137.1:8089/show/findById/"+0+"/"+id);
-      else if(month==''&&id=='') tableInit("http://www.192.168.137.1:8089/show/findAll/"+0);
-      else tableInit("http://192.168.137.1:8089/show/findById/"+month+"/"+id);
+      if(id==''&&month!='') tableInit("http://localhost:8089/show/findAll/"+month);
+      else if(month==''&&id!='') tableInit("http://localhost:8089/show/findById/"+0+"/"+id);
+      else if(month==''&&id=='') tableInit("http://localhost:8089/show/findAll/"+0);
+      else tableInit("http://localhost:8089/show/findById/"+month+"/"+id);
     })
     //新增工人
     $("#insert").on('click',function(){
@@ -317,7 +317,7 @@
         type:2,
         title:'新增工人',
         area:['500px','300px'],
-        content:'http://192.168.137.1:8089/insert.html',
+        content:'http://localhost:8089/insert.html',
       });
     })
     //上传图片监听

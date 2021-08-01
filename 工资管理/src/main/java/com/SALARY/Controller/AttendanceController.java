@@ -1,6 +1,7 @@
 package com.SALARY.Controller;
 
 import com.SALARY.Services.AttendanceService;
+import com.SALARY.common.Log;
 import com.SALARY.domain.Attendance;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,16 +20,19 @@ public class AttendanceController {
     private AttendanceService _attendance;
     @ApiOperation(value = "插入活跃度",notes = "描述")
     @RequestMapping(value = "insert",method = {RequestMethod.GET})
+    @Log(type = 33,msg = "插入活跃度")
     public int insert(Attendance attendance) {
         return _attendance.insert(attendance);
     }
     @ApiOperation(value = "删除活跃度",notes = "描述")
     @RequestMapping(value = "del/{id}",method = {RequestMethod.GET})
+    @Log(type = 53,msg = "删除活跃度")
     public int del(@PathVariable int id) {
         return _attendance.del(id);
     }
     @ApiOperation(value = "更新活跃度",notes = "描述")
     @RequestMapping(value = "update",method = {RequestMethod.GET})
+    @Log(type = 43,msg = "更新活跃度")
     public int update(Attendance attendance) {
         return _attendance.update(attendance);
     }
