@@ -22,7 +22,7 @@ public class ShowController {
     public List<Show> findById(@PathVariable int month,@PathVariable int id,int page,int limit) {
         List<Show> list=new ArrayList<Show>();
         if(_show.findById(month,id,page,limit)!=null){
-            list.add(_show.findById(month,id,page,limit));
+            return _show.findById(month,id,page,limit);
         }
         else {
             list.add(new Show());

@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../Highcharts/code/css/highcharts.css">
     <script type="text/javascript" src="../layui/layui.js"></script>
+    <script type="text/javascript" src="../Highcharts/code/highcharts.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
     <style>
         .layui-table-cell {height:auto;overflow:visible;}
     </style>
@@ -33,15 +36,18 @@
     <div class="layui-body" style="margin-left:-200px">
       <img src="" alt="" id="use" style="width:100px;height:100px" >
       <table class="layui-hide" id="test" lay-filter="test"></table>
+      <br>
+      <div id="container"></div>
+      <div id="container2"></div>
     </div>
     <div class="layui-footer" style="margin-left:-200px">底部固定区域</div>
   </div>
   <input type="hidden" id="Count">
-
   <button id="upload"></button>
+  <input type="hidden" id="name">
+
 </body>
 <script>
-
   var tableInit = function(url){//url代表的是渲染表格的请求路径
     layui.use(['table','form','util','upload'], function(){
       var $ = layui.$;
@@ -310,6 +316,8 @@
       else if(month==''&&id!='') tableInit("http://localhost:8089/show/findById/"+0+"/"+id);
       else if(month==''&&id=='') tableInit("http://localhost:8089/show/findAll/"+0);
       else tableInit("http://localhost:8089/show/findById/"+month+"/"+id);
+      if(id=="") Fun(1);
+      else Fun(id);
     })
     //新增工人
     $("#insert").on('click',function(){
@@ -338,6 +346,58 @@
       }
     });
   });
+
+  //数据可视化
+  function Fun(id) {
+    //将每月工资转化为数组
+    var monthSalaryData=[];
+    for(var i=1;i<13;i++){
+      $.ajax({
+        url:"http://localhost:8089/salary/findById?id="+id+"&month="+i,
+        async: false,
+        success:function(res){
+          monthSalaryData[i-1]=res[0].salary;
+        }
+      });
+    };
+    // 全局配置，针对页面上所有图表有效
+    Highcharts.setOptions({
+        chart: {
+            backgroundColor: {
+                linearGradient: [0, 0, 500, 500],
+                stops: [
+                    [0, 'rgb(255, 255, 255)'],
+                    [1, 'rgb(240, 240, 255)']
+                ]
+            },
+            borderWidth: 2,
+            plotBackgroundColor: 'rgba(255, 255, 255, .9)',
+            plotShadow: true,
+            plotBorderWidth: 1
+        }
+    });
+    var chart1 = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container',
+        },
+         title: {
+              text: '每月的工资'                 // 标题
+          },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: '月工资'                // y 轴标题
+            }
+        },
+        series: [{
+            name:"员工",
+            data:monthSalaryData,
+        }]
+    });
+  }
+  Fun(1);
 </script>
 <script type="text/html" id="barDemo">
   <div style="height:100px;" id="vue">

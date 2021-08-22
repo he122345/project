@@ -8,6 +8,6 @@ public interface SalaryService {
     public int insert(Salary salary);
     public int del(int id);
     public int update(Salary salary);
-    public Salary findById(int id);
+    public Salary findById(int id,int month);
     public List<Salary> findAll();
 }

@@ -5,7 +5,7 @@
         select * from salarymonth
     </select>
     <select id="findById" resultType="com.SALARY.domain.Salary" parameterType="int">
-        select * from salarymonth where id=#{id}
+        select * from salarymonth where id=#{id} and month=#{month}
     </select>
     <insert id="insert" parameterType="com.SALARY.domain.Salary">
         insert into salarymonth(id,month,salary) values(#{id},#{month},#{salary})

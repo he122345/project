@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Salary {
     private int id;
     private int month;
-    private int salary;
+    private int salary=0;
 
     public Salary() {
     }

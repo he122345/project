@@ -33,9 +33,12 @@ public class SalaryController {
         return _salary.del(id);
     }
     @RequestMapping(value = "findById",method = {RequestMethod.GET})
-    public List<Salary> findById(int id) {
+    public List<Salary> findById(int id,int month) {
         List<Salary> list=new ArrayList<Salary>();
-        list.add(_salary.findById(id));
+        if(_salary.findById(id,month)==null){list.add(new Salary());}
+        else {
+            list.add(_salary.findById(id,month));
+        }
         return list;
     }
     @RequestMapping(value = "findAll",method = {RequestMethod.GET})

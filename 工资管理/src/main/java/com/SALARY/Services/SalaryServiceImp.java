@@ -44,8 +44,8 @@ public class SalaryServiceImp implements SalaryService{
     }
 
     @Override
-    public Salary findById(int id) {
-        return _salary.findById(id);
+    public Salary findById(int id,int month) {
+        return _salary.findById(id,month);
     }
 
     @Override
