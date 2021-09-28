@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicau.Dao.DoctorPointDao">
+    <select id="findAll" resultType="com.sicau.domain.DoctorPoint">
+        select * from doctor_point
+    </select>
+    <select id="findById" resultType="com.sicau.domain.DoctorPoint" parameterType="int">
+        select * from doctor_point where id=#{id}
+    </select>
+    <insert id="insert" parameterType="com.sicau.domain.DoctorPoint">
+        insert into doctor_point(id,point,advice) values(#{id},#{point},#{advice})
+    </insert>
+    <delete id="del" parameterType="int">
+        delete from doctor_point where id=#{id}
+    </delete>
+    <update id="update" parameterType="com.sicau.domain.DoctorPoint">
+        update doctor_point set point=#{point},advice=#{advice} where id = #{id}
+    </update>
+    <select id="isExist" resultType="com.sicau.domain.DoctorPoint" parameterType="int">
+        select * from doctor where id=#{id}
+    </select>
+</mapper>

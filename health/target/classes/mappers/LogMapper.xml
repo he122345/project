@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicau.Dao.LogDao">
+    <insert id="insert" parameterType="com.sicau.domain.Log">
+        insert into log(log_id,log_type,log_msg,log_time,log_user) values(#{logId},#{logType},#{logMsg},#{logTime},#{logUser})
+    </insert>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicau.Dao.UserCollectDao">
+    <select id="findAll" resultType="com.sicau.domain.UserCollect">
+        select * from user_collect_doctor
+    </select>
+    <select id="findById" resultType="com.sicau.domain.UserCollect" parameterType="int">
+        select * from user_collect_doctor where id=#{id}
+    </select>
+    <insert id="insert" parameterType="com.sicau.domain.UserCollect">
+        insert into user_collect_doctor(id,collect) values(#{id},#{collect})
+    </insert>
+    <delete id="del" parameterType="int">
+        delete from user_collect_doctor where id=#{id}
+    </delete>
+    <update id="update" parameterType="com.sicau.domain.UserCollect">
+        update user_collect_doctor set collect=#{collect} where id = #{id}
+    </update>
+    <select id="isExistD" resultType="com.sicau.domain.Doctor" parameterType="int">
+        select * from doctor where id=#{id}
+    </select>
+    <select id="isExistU" resultType="com.sicau.domain.User" parameterType="int">
+        select * from user where id=#{id}
+    </select>
+</mapper>

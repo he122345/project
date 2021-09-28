@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicau.Dao.UserDao">
+    <select id="findAll" resultType="com.sicau.domain.User">
+        select * from user
+    </select>
+    <select id="findById" resultType="com.sicau.domain.User" parameterType="int">
+        select * from user where id=#{id}
+    </select>
+    <insert id="insert" parameterType="com.sicau.domain.User">
+        insert into user(id,name,password) values(#{id},#{name},#{password})
+    </insert>
+    <delete id="del" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+    <update id="update" parameterType="com.sicau.domain.User">
+        update user set name=#{name},password=#{password} where id = #{id}
+    </update>
+    <select id="login" resultType="String" parameterType="int">
+        select password from user where id=#{id}
+    </select>
+</mapper>
