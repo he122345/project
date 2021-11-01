@@ -26,8 +26,8 @@ public class UserCollectServiceImpl implements UserCollectService {
     }
 
     @Override
-    public int del(int id) {
-        return userCollectDao.del(id);
+    public int del(UserCollect userCollect) {
+        return userCollectDao.del(userCollect);
     }
 
     @Override

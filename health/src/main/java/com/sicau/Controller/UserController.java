@@ -75,13 +75,13 @@ public class UserController {
         return userService.findAll();
     }
     @GetMapping("img")
-    public void verify(HttpServletRequest request, HttpServletResponse response) {
-        response.setContentType("image/png");
+    public String verify(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("text/plain");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Expire", "0");
         response.setHeader("Pragma", "no-cache");
         ValidateCodeUtil validateCodeUtil = new ValidateCodeUtil();
-        validateCodeUtil.getRandomCodeImage(request, response);
+        return validateCodeUtil.getRandomCodeBase64(request, response);
     }
     @Log(type = 1,msg = "用户登录")
     @PostMapping("login")
@@ -100,6 +100,7 @@ public class UserController {
         }
         HttpSession session=request.getSession();
         session.setAttribute("user",user);
+        System.out.println(user.toString());
         return ResultBean.success().msg("登录成功");
     }
 

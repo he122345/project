@@ -20,7 +20,7 @@ public class HeathAdviceController {
     @Autowired
     private HealthAdviceService healthAdviceService;
     @PostMapping("insert")
-    public String insert(HealthAdvice healthAdvice){
+    public String insert(@RequestBody HealthAdvice healthAdvice){
         if (healthAdviceService.findById(healthAdvice.getId()).size()!=0){
             return "id已存在";
         }
@@ -31,22 +31,22 @@ public class HeathAdviceController {
 
     }
     @GetMapping("del")
-    public String del(int id){
+    public String del(@RequestParam("id") int id){
         int msg;
         msg=healthAdviceService.del(id);
         if (msg==1) {return "删除成功";}
         else {return "删除失败";}
     }
     @PostMapping("update")
-    public String update(HealthAdvice healthAdvice){
+    public String update(@RequestBody HealthAdvice healthAdvice){
         int msg;
         msg=healthAdviceService.update(healthAdvice);
         if (msg==1) {return "更新成功";}
         else {return "更新失败";}
     }
     @GetMapping("findById")
-    List<HealthAdvice> findById(int id){
-        return healthAdviceService.findById(id);
+    HealthAdvice findById(int id){
+        return healthAdviceService.findById(id).get(0);
     }
     @GetMapping("findAll")
     List<HealthAdvice> findAll(){

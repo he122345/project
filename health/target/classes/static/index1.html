@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <style>
+        .content{
+            float: left ;
+            width: 450px;
+            height: 360px;
+            margin: 28px;
+            background-color: #235;
+        }
+        .i{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-carousel" id="test1">
+    <div carousel-item>
+        <div class="i"><img src="image/4.PNG" width="1200"></div>
+        <div class="i"><img src="image/5.PNG"></div>
+        <div class="i"><img src="image/6.PNG"></div>
+
+    </div>
+
+</div>
+<<ul class="layui-nav" lay-filter="">
+    <li class="layui-nav-item"><a href="javascript:;">健康咨询</a></li>
+    <li class="layui-nav-item"><a href="javascript:;">医生推荐</a></li>
+    <li class="layui-nav-item"><a href="javascript:;">个人中心</a></li>
+</ul>
+<div id="main" style="height:800px">
+    <!-- 内容主体区域 -->
+    <div class="content">
+        <div><img src="image/1.jpg"width="450" height="340"></div>
+    </div>
+    <div class="content">
+        <div><img src="image/2.jpg"width="450" height="340"></div>
+    </div>
+    <div class="content">
+        <div><img src="image/3.jpg"width="450" height="340"></div>
+    </div>
+</div>
+<input id="id" type="hidden">
+<script>
+    layui.use('carousel', function(){
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            ,width: '100%' //设置容器宽度
+            ,height:'350px'
+            ,arrow: 'always' //始终显示箭头
+            //,anim: 'updown' //切换动画方式
+        });
+    });
+
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+        var $ = layui.jquery;
+        $("#id").val(window.localStorage.getItem('id'));
+        $("a").click(function(){
+            //alert($(this).text());
+            var text = $(this).text()
+            $("#main").empty();
+            if(text=="健康咨询"){
+                $("#main").find("#ifr").remove();
+                $("#main").append('<iframe src="doctor/advice.html" id="ifr" style="width:100%;height:100%"></iframe>');
+            }else if(text=="医生推荐"){
+                $("#main").find("#ifr").remove();
+                $("#main").append('<iframe src="doctor/doctor.html" id="ifr" style="width:100%;height:100%"></iframe>');
+            }else if(text=="个人中心"){
+                $("#main").find("#ifr").remove();
+                $("#main").append('<iframe src="user/user.html" id="ifr" style="width:100%;height:100%"></iframe>');
+            }
+        })
+    });
+</script>
+</body>
+</html>

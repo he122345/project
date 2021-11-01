@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface UserCollectService {
     int insert(UserCollect userCollect);
-    int del(int id);
+    int del(UserCollect userCollect);
     int update(UserCollect userCollect);
     List<UserCollect> findById(int id);
     List<UserCollect> findAll();

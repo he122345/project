@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>评分</title>
+  <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+  <script type="text/javascript" src="../layui/layui.js"></script>
+</head>
+<body>
+<div id="title">
+
+</div>
+<form class="layui-form">
+  <input type="hidden" name="point" required  lay-verify="required" autocomplete="off" class="layui-input" id="id">
+  <div class="layui-form-item">
+    <label class="layui-form-label">评分</label>
+    <div class="layui-input-block">
+      <input type="text" name="point" required  lay-verify="required" placeholder="请输入分数" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">留言</label>
+    <div class="layui-input-block">
+      <input type="text" name="advice" required  lay-verify="required" placeholder="请输入留言" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+
+
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
+
+<script>
+    //Demo
+    layui.use(['form','jquery'], function(){
+        var form = layui.form;
+        var $ = layui.$;
+
+        $("#id").val($("#point",window.parent.document).val());
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            console.log(data.field)
+            $.post("http://localhost:8090/doctorPoint/insert",data.field,function(res){
+                if(res.state==1){
+                    alert(res.message);
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.location.reload();
+                    parent.layer.close(index);
+                }
+                else{
+                    alert(res.message);
+                }
+            })
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

@@ -5,8 +5,7 @@ import com.sicau.domain.Doctor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author he
@@ -61,6 +60,16 @@ public class DoctorAdviceServiceImpl implements DoctorAdviceService {
             }
             doctor.setPoint(doctorAdviceDao.point(doctor.getId()));
         }
+        list.sort(new Comparator<Doctor>() {
+            @Override
+            public int compare(Doctor o2, Doctor o1) {
+                if (o1.getDepartment().equals(o2.getDepartment())) {
+                    double a = o1.getPoint() - o2.getPoint();
+                    return a > 0 ? 1 : -1;
+                }
+                return -1;
+            }
+        });
         return list;
     }
 

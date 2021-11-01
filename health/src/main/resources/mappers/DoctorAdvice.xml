@@ -2,19 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicau.Dao.DoctorAdviceDao">
     <select id="findAll" resultType="com.sicau.domain.Doctor">
-        select * from doctor
+        select * from doctor order by department desc
     </select>
     <select id="findById" resultType="com.sicau.domain.Doctor" parameterType="int">
         select * from doctor where id=#{id}
     </select>
     <insert id="insert" parameterType="com.sicau.domain.Doctor">
-        insert into doctor(id,name,sex,department,point,photo) values(#{id},#{name},#{sex},#{department},#{point},#{photo})
+        insert into doctor(id,name,sex,department,point) values(#{id},#{name},#{sex},#{department},#{point})
     </insert>
     <delete id="del" parameterType="int">
         delete from doctor where id=#{id}
     </delete>
     <update id="update" parameterType="com.sicau.domain.Doctor">
-        update doctor set name=#{name},sex=#{sex},department=#{department},point=#{point},photo=#{photo} where id = #{id}
+        update doctor set name=#{name},sex=#{sex},department=#{department},point=#{point} where id = #{id}
     </update>
     <select id="point" resultType="java.lang.Double" parameterType="int">
         select avg(point) from doctor_point where id=#{id}

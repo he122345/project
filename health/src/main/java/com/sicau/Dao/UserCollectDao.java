@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface UserCollectDao {
     int insert(UserCollect userCollect);
-    int del(int id);
+    int del(UserCollect userCollect);
     int update(UserCollect userCollect);
     List<UserCollect> findById(int id);
     List<UserCollect> findAll();
