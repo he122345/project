@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.he.Dao.UserRoleDao">
+    <select id="findAll" resultType="com.he.Bean.UserRole">
+        select * from user_role
+    </select>
+    <select id="findById" resultType="com.he.Bean.UserRole" parameterType="int">
+        select * from user_role where uid=#{uid}
+    </select>
+    <insert id="insert" parameterType="com.he.Bean.UserRole">
+        insert into user_role(uid,rid) values(#{uid},#{rid})
+    </insert>
+    <delete id="del" parameterType="int">
+        delete from user_role where uid=#{uid}
+    </delete>
+    <update id="update" parameterType="com.he.Bean.UserRole">
+        update user_role set rid=#{rid} where uid = #{uid}
+    </update>
+</mapper>

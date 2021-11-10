@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.he.Dao.UserDao">
+    <select id="findAll" resultType="com.he.Bean.User">
+        select * from user
+    </select>
+    <select id="findById" resultType="com.he.Bean.User" parameterType="int">
+        select * from user where id=#{id}
+    </select>
+    <insert id="insert" parameterType="com.he.Bean.User">
+        insert into user(id,name) values(#{id},#{name})
+    </insert>
+    <delete id="del" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+    <update id="update" parameterType="com.he.Bean.User">
+        update user set name=#{name} where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.he.Dao.PermissionDao">
+    <select id="findAll" resultType="com.he.Bean.Permission">
+        select * from permission
+    </select>
+    <select id="findById" resultType="com.he.Bean.Permission" parameterType="int">
+        select * from permission where id=#{id}
+    </select>
+    <insert id="insert" parameterType="com.he.Bean.Permission">
+        insert into permission(id,name) values(#{id},#{name})
+    </insert>
+    <delete id="del" parameterType="int">
+        delete from permission where id=#{id}
+    </delete>
+    <update id="update" parameterType="com.he.Bean.Permission">
+        update permission set name=#{name} where id = #{id}
+    </update>
+</mapper>
