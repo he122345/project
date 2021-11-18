@@ -81,7 +81,7 @@ public class UserController {
         response.setHeader("Expire", "0");
         response.setHeader("Pragma", "no-cache");
         ValidateCodeUtil validateCodeUtil = new ValidateCodeUtil();
-        return validateCodeUtil.getRandomCodeBase64(request, response);
+        return "<img src=\"data:image/png;base64,"+validateCodeUtil.getRandomCodeBase64(request, response)+"\"/>";
     }
     @Log(type = 1,msg = "用户登录")
     @PostMapping("login")

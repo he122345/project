@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.he.dao.MyCartDao">
+    <select id="findAll" resultType="com.he.entity.MyCart">
+        select * from my_cart
+    </select>
+    <select id="findByCartName" resultType="com.he.entity.MyCart" parameterType="String">
+        select * from my_cart where cart_name=#{cartName}
+    </select>
+    <insert id="insert" parameterType="com.he.entity.MyCart">
+        insert into my_cart(id,cart_name,quantity) values(#{id},#{cartName},#{quantity})
+    </insert>
+    <delete id="del" parameterType="String">
+        delete from my_cart where cart_name=#{cartName}
+    </delete>
+    <update id="update" parameterType="com.he.entity.MyCart">
+        update my_cart set quantity=#{quantity} where cart_name = #{cartName}
+    </update>
+</mapper>

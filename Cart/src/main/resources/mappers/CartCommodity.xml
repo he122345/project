@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.he.dao.CartCommodityDao">
+    <select id="findAll" resultType="com.he.entity.CartCommodity">
+        select * from cart_commodity
+    </select>
+    <select id="findByCartName" resultType="com.he.entity.CartCommodity" parameterType="String">
+        select * from cart_commodity where cart_name=#{cartName}
+    </select>
+    <insert id="insert" parameterType="com.he.entity.CartCommodity">
+        insert into cart_commodity(id,cart_name,picture,price,stock,description,create_time,update_time) values(#{id},#{cartName},#{picture},#{price},#{stock},#{description},#{createTime},#{updateTime})
+    </insert>
+    <delete id="del" parameterType="String">
+        delete from cart_commodity where cart_name=#{cartName}
+    </delete>
+    <update id="update" parameterType="com.he.entity.CartCommodity">
+        update cart_commodity set picture=#{picture},price=#{price},stock=#{stock},description=#{description},update_time=#{updateTime} where cart_name = #{cartName}
+    </update>
+</mapper>
