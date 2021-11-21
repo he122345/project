@@ -14,4 +14,5 @@ public class MyCart {
     private String id;
     private String cartName;
     private Integer quantity;
+    private Integer version;
 }

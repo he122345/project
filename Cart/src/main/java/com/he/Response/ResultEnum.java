@@ -18,7 +18,9 @@ public enum ResultEnum {
     // 商品为空
     Commodity_Empty(4,"无商品"),
     // 数据未更改
-    Not_Change(5,"数据未更改");
+    Not_Change(5,"数据未更改"),
+    // 数据已过期
+    Data_Overdue(6,"数据已过期");
     private Integer code;
     private String msg;
 

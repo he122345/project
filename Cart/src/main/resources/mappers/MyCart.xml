@@ -14,6 +14,6 @@
         delete from my_cart where cart_name=#{cartName}
     </delete>
     <update id="update" parameterType="com.he.entity.MyCart">
-        update my_cart set quantity=#{quantity} where cart_name = #{cartName}
+        update my_cart set quantity=#{quantity},version=#{version}+1 where cart_name = #{cartName} and version=#{version}
     </update>
 </mapper>

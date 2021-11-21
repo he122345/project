@@ -35,6 +35,7 @@ public class MyCartServicesImpl implements MyCartServices {
             return ResultBean.fail().setResultEnum(ResultEnum.Commodity_Null);
         }
         myCart.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+        myCart.setVersion(0);
         int res=myCartDao.insert(myCart);
         if (res == 1) {
             return ResultBean.success().setMsg("新增成功");
@@ -56,12 +57,21 @@ public class MyCartServicesImpl implements MyCartServices {
 
     @Override
     public ResultBean update(MyCart myCart) {
-        if (myCartDao.findByCartName(myCart.getCartName()).size()==0){
+        List<MyCart> list=myCartDao.findByCartName(myCart.getCartName());
+        if (list.size()==0){
             return ResultBean.fail().setResultEnum(ResultEnum.Commodity_Null);
+        }
+        MyCart m=list.get(0);
+        // 检测数据是否变化
+        if (m.getQuantity().equals(myCart.getQuantity())){
+            return ResultBean.fail().setResultEnum(ResultEnum.Not_Change);
         }
         int res=myCartDao.update(myCart);
         if (res == 1){
             return ResultBean.success().setMsg("更新成功");
+        }
+        if (res == 0){
+            return ResultBean.fail().setResultEnum(ResultEnum.Data_Overdue);
         }
         return ResultBean.fail().setMsg("未知原因");
     }

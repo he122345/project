@@ -8,6 +8,7 @@ import com.he.services.CartCommodityServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +33,8 @@ public class CartCommodityServicesImpl implements CartCommodityServices {
             return ResultBean.fail().setResultEnum(ResultEnum.Name_Exist);
         }
         cartCommodity.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-        cartCommodity.setCreateTime(new Date());
+        cartCommodity.setCreateTime(LocalDateTime.now().toString());
+        cartCommodity.setVersion(0);
         int res=cartCommodityDao.insert(cartCommodity);
         if (res == 1) {
             return ResultBean.success().setMsg("新增成功");
@@ -66,10 +68,14 @@ public class CartCommodityServicesImpl implements CartCommodityServices {
         if (c.getPicture().equals(cartCommodity.getPicture()) && c.getPrice().equals(cartCommodity.getPrice()) && c.getStock().equals(cartCommodity.getStock()) && c.getDescription().equals(cartCommodity.getDescription())){
             return ResultBean.fail().setResultEnum(ResultEnum.Not_Change);
         }
-        cartCommodity.setUpdateTime(new Date());
+        LocalDateTime localDateTime=LocalDateTime.now();
+        cartCommodity.setUpdateTime(localDateTime.toString());
         int res=cartCommodityDao.update(cartCommodity);
         if (res == 1){
             return ResultBean.success().setMsg("更新成功");
+        }
+        if (res == 0){
+            return ResultBean.fail().setResultEnum(ResultEnum.Data_Overdue);
         }
         return ResultBean.fail().setMsg("未知原因");
     }

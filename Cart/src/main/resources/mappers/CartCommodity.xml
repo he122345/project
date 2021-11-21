@@ -8,12 +8,12 @@
         select * from cart_commodity where cart_name=#{cartName}
     </select>
     <insert id="insert" parameterType="com.he.entity.CartCommodity">
-        insert into cart_commodity(id,cart_name,picture,price,stock,description,create_time,update_time) values(#{id},#{cartName},#{picture},#{price},#{stock},#{description},#{createTime},#{updateTime})
+        insert into cart_commodity(id,cart_name,picture,price,stock,description,create_time,update_time,version) values(#{id},#{cartName},#{picture},#{price},#{stock},#{description},#{createTime},#{updateTime},#{version})
     </insert>
     <delete id="del" parameterType="String">
         delete from cart_commodity where cart_name=#{cartName}
     </delete>
     <update id="update" parameterType="com.he.entity.CartCommodity">
-        update cart_commodity set picture=#{picture},price=#{price},stock=#{stock},description=#{description},update_time=#{updateTime} where cart_name = #{cartName}
+        update cart_commodity set picture=#{picture},price=#{price},stock=#{stock},description=#{description},update_time=#{updateTime},version=#{version}+1 where cart_name = #{cartName} and version=#{version}
     </update>
 </mapper>

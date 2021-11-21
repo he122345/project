@@ -19,6 +19,7 @@ public class CartCommodity {
     private Double price;
     private Integer stock;
     private String description;
-    private Date createTime;
-    private Date updateTime;
+    private String createTime;
+    private String updateTime;
+    private Integer version;
 }
