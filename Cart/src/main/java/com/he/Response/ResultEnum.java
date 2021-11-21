@@ -20,7 +20,9 @@ public enum ResultEnum {
     // 数据未更改
     Not_Change(5,"数据未更改"),
     // 数据已过期
-    Data_Overdue(6,"数据已过期");
+    Data_Overdue(6,"数据已过期"),
+    // 商品名不正确
+    Incorrectly_Name(7,"商品名不正确");
     private Integer code;
     private String msg;
 

@@ -8,7 +8,7 @@
         select * from my_cart where cart_name=#{cartName}
     </select>
     <insert id="insert" parameterType="com.he.entity.MyCart">
-        insert into my_cart(id,cart_name,quantity) values(#{id},#{cartName},#{quantity})
+        insert into my_cart(id,cart_name,quantity,version) values(#{id},#{cartName},#{quantity},#{version})
     </insert>
     <delete id="del" parameterType="String">
         delete from my_cart where cart_name=#{cartName}
