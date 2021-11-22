@@ -5,6 +5,7 @@ import com.he.Response.ResultEnum;
 import com.he.dao.CartCommodityDao;
 import com.he.dao.MyCartDao;
 import com.he.entity.MyCart;
+import com.he.exception.LogException;
 import com.he.services.MyCartServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,10 +30,10 @@ public class MyCartServicesImpl implements MyCartServices {
     @Override
     public ResultBean insert(MyCart myCart) {
         if (myCartDao.findByCartName(myCart.getCartName()).size() != 0){
-            return ResultBean.fail().setResultEnum(ResultEnum.Name_Exist);
+            throw new LogException(ResultEnum.Name_Exist);
         }
         if (cartCommodityDao.findByCartName(myCart.getCartName()).size() == 0){
-            return ResultBean.fail().setResultEnum(ResultEnum.Commodity_Null);
+            throw new LogException(ResultEnum.Commodity_Null);
         }
         myCart.setId(UUID.randomUUID().toString().replaceAll("-", ""));
         myCart.setVersion(0);
@@ -40,47 +41,47 @@ public class MyCartServicesImpl implements MyCartServices {
         if (res == 1) {
             return ResultBean.success().setMsg("新增成功");
         }
-        return ResultBean.fail().setMsg("未知原因");
+        throw new LogException(ResultEnum.Unknown_Error);
     }
 
     @Override
     public ResultBean del(String cartName) {
         if (myCartDao.findByCartName(cartName).size()==0){
-            return ResultBean.fail().setResultEnum(ResultEnum.Commodity_Null);
+            throw new LogException(ResultEnum.Commodity_Null);
         }
         int res=myCartDao.del(cartName);
         if (res > 0){
             return ResultBean.success().setMsg("删除了"+res+"条数据");
         }
-        return ResultBean.fail().setMsg("未知原因");
+        throw new LogException(ResultEnum.Unknown_Error);
     }
 
     @Override
     public ResultBean update(MyCart myCart) {
         List<MyCart> list=myCartDao.findByCartName(myCart.getCartName());
         if (list.size()==0){
-            return ResultBean.fail().setResultEnum(ResultEnum.Commodity_Null);
+            throw new LogException(ResultEnum.Commodity_Null);
         }
         MyCart m=list.get(0);
         // 检测数据是否变化
         if (m.getQuantity().equals(myCart.getQuantity())){
-            return ResultBean.fail().setResultEnum(ResultEnum.Not_Change);
+            throw new LogException(ResultEnum.Not_Change);
         }
         int res=myCartDao.update(myCart);
         if (res == 1){
             return ResultBean.success().setMsg("更新成功");
         }
         if (res == 0){
-            return ResultBean.fail().setResultEnum(ResultEnum.Data_Overdue);
+            throw new LogException(ResultEnum.Data_Overdue);
         }
-        return ResultBean.fail().setMsg("未知原因");
+        throw new LogException(ResultEnum.Unknown_Error);
     }
 
     @Override
     public ResultBean findByCartName(String cartName) {
         List<MyCart> list=myCartDao.findByCartName(cartName);
         if (list.size() == 0){
-            return ResultBean.fail().setResultEnum(ResultEnum.Commodity_Null);
+            throw new LogException(ResultEnum.Commodity_Null);
         }
         ResultBean resultBean=ResultBean.success();
         resultBean.setMsg("查找完成");
@@ -91,7 +92,7 @@ public class MyCartServicesImpl implements MyCartServices {
     public ResultBean findAll() {
         List<MyCart> list=myCartDao.findAll();
         if (list.size() == 0){
-            return ResultBean.fail().setResultEnum(ResultEnum.Commodity_Null);
+            throw new LogException(ResultEnum.Commodity_Null);
         }
         ResultBean resultBean=ResultBean.success();
         resultBean.setMsg("查找完成");

@@ -3,6 +3,7 @@ package com.he.controller;
 import com.he.Response.ResultBean;
 import com.he.Response.ResultEnum;
 import com.he.entity.MyCart;
+import com.he.exception.LogException;
 import com.he.services.MyCartServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -29,14 +30,14 @@ public class MyCartController {
         //验证参数是否规范
         if(bindingResult.hasErrors()){
             String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
-            return ResultBean.fail().setMsg(errorMsg);
+            throw new LogException(ResultEnum.Illegal_Arguments.getCode(),ResultEnum.Illegal_Arguments.getMsg()+":"+errorMsg);
         }
         return myCartServices.insert(myCart);
     }
     @GetMapping("del")
     public ResultBean del(String cartName) {
         if (cartName == null || "".equals(cartName)){
-            return ResultBean.fail().setResultEnum(ResultEnum.Incorrectly_Name);
+            throw new LogException(ResultEnum.Incorrectly_Name);
         }
         return myCartServices.del(cartName);
     }
@@ -45,14 +46,14 @@ public class MyCartController {
         //验证参数是否规范
         if(bindingResult.hasErrors()){
             String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
-            return ResultBean.fail().setMsg(errorMsg);
+            throw new LogException(ResultEnum.Illegal_Arguments.getCode(),ResultEnum.Illegal_Arguments.getMsg()+":"+errorMsg);
         }
         return myCartServices.update(myCart);
     }
     @GetMapping("findByCartName")
     public ResultBean findByCartName(String cartName) {
         if (cartName == null || "".equals(cartName)){
-            return ResultBean.fail().setResultEnum(ResultEnum.Incorrectly_Name);
+            throw new LogException(ResultEnum.Incorrectly_Name);
         }
         return myCartServices.findByCartName(cartName);
     }

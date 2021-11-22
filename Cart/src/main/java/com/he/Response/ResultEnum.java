@@ -1,6 +1,5 @@
 package com.he.Response;
 
-import lombok.Data;
 
 /**
  * @author he
@@ -22,7 +21,13 @@ public enum ResultEnum {
     // 数据已过期
     Data_Overdue(6,"数据已过期"),
     // 商品名不正确
-    Incorrectly_Name(7,"商品名不正确");
+    Incorrectly_Name(7,"商品名不正确"),
+    // 未知错误
+    Unknown_Error(8,"未知错误"),
+    // 参数异常
+    Illegal_Arguments(9,"参数格式错误"),
+    // 系统异常
+    System_Error(10,"系统异常");
     private Integer code;
     private String msg;
 
@@ -35,16 +40,18 @@ public enum ResultEnum {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public ResultEnum setCode(Integer code) {
         this.code = code;
+        return this;
     }
 
     public String getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg) {
+    public ResultEnum setMsg(String msg) {
         this.msg = msg;
+        return this;
     }
 
     public static String getMessage(Integer code){

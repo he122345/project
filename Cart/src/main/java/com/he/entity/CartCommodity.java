@@ -3,10 +3,8 @@ package com.he.entity;
 import lombok.Data;
 
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 
 /**
@@ -27,7 +25,7 @@ public class CartCommodity {
     private String picture;
     @Min(value = 0,message = "价格应大于0")
     private Double price;
-    @DecimalMin("库存不能小于0")
+    @DecimalMin(value = "0", message = "库存不能小于0")
     private Integer stock;
     private String description;
     private String createTime;

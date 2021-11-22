@@ -1,5 +1,6 @@
 package com.he.Response;
 
+import com.he.exception.LogException;
 import lombok.Data;
 
 /**
@@ -41,6 +42,16 @@ public class ResultBean<T> {
     }
     public ResultBean<T> data(T data){
         this.data = data;
+        return this;
+    }
+    public ResultBean<T> setLogException(LogException logException){
+        this.code= logException.getCode();
+        this.message= logException.getMessage();
+        return this;
+    }
+    public ResultBean<T> setCodeMessage(Integer code,String message){
+        this.code=code;
+        this.message=message;
         return this;
     }
 }

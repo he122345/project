@@ -21,10 +21,6 @@ spring:
       timeBetweenEvictionRunsMillis: 60000
       #配置一个连接在池中最小生存的时间
       minEvictableIdleTimeMillis: 300000
-      #
-      BreakAfterAcquireFailure: true
-      #
-      connectionErrorRetryAttempts: 0
 
 
 
