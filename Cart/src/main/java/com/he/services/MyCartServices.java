@@ -1,6 +1,6 @@
 package com.he.services;
 
-import com.he.Response.ResultBean;
+import com.he.response.ResultBean;
 import com.he.entity.MyCart;
 
 /**

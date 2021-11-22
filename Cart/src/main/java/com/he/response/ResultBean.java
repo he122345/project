@@ -1,4 +1,4 @@
-package com.he.Response;
+package com.he.response;
 
 import com.he.exception.LogException;
 import lombok.Data;

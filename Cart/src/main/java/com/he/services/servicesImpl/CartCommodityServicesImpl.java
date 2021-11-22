@@ -1,6 +1,6 @@
 package com.he.services.servicesImpl;
-import com.he.Response.ResultBean;
-import com.he.Response.ResultEnum;
+import com.he.response.ResultBean;
+import com.he.response.ResultEnum;
 import com.he.dao.CartCommodityDao;
 import com.he.dao.MyCartDao;
 import com.he.entity.CartCommodity;

@@ -1,7 +1,7 @@
 package com.he.exception;
 
-import com.he.Response.ResultBean;
-import com.he.Response.ResultEnum;
+import com.he.response.ResultBean;
+import com.he.response.ResultEnum;
 import lombok.Getter;
 
 /**

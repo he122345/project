@@ -1,6 +1,6 @@
 package com.he.log;
 
-import com.he.Response.ResultBean;
+import com.he.response.ResultBean;
 import com.he.dao.LogDao;
 import com.he.exception.LogException;
 import org.aspectj.lang.JoinPoint;
